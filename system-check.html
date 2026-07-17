@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#0f2336">
   <meta name="format-detection" content="telephone=no">
   <title>DPRO 土地家屋調査士 LINE｜営業前system-check</title>
-  <script src="config.js?v=chosashi-8-r2-demo-fix-20260717"></script>
+  <script src="config.js?v=chosashi-8-r3-demo-result-layout-20260717"></script>
   <style>
     :root{
       --navy-950:#0f2336;--navy-900:#17324d;--navy-800:#244660;
@@ -54,7 +54,13 @@
     .panel-head h2,.panel-head h3{margin:0;color:var(--navy-950);line-height:1.4}.panel-head h2{font-size:25px}.panel-head h3{font-size:20px}.panel-head p{margin:4px 0 0;color:var(--muted);font-size:14px}
     .status{display:inline-flex;padding:6px 10px;border-radius:999px;font-size:12px;font-weight:900;white-space:nowrap}.ok{color:var(--success);background:var(--success-bg)}.ng{color:var(--danger);background:var(--danger-bg)}.warning{color:var(--warning);background:var(--warning-bg)}.info{color:var(--info);background:var(--info-bg)}
     .check-list{display:grid;gap:10px}.check-card{padding:14px;border:1px solid var(--line);border-radius:14px;background:#fff}.check-card.failed{border-color:#e2b0b4;background:#fffafa}.check-card.warning-card{border-color:#e6cd91;background:#fffdf7}
-    .check-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}.check-name{color:var(--navy-950);font-weight:900}.check-meta{margin-top:3px;color:var(--muted);font-size:13px}
+    .check-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}.check-name{color:var(--navy-950);font-weight:900}.check-meta{margin-top:3px;color:var(--muted);font-size:13px;white-space:normal;overflow-wrap:anywhere;word-break:break-word}
+    #demoResult{min-width:0;max-width:100%}
+    #demoResult .check-card{min-width:0;max-width:100%;overflow:hidden}
+    .demo-counts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;margin-top:10px}
+    .demo-count{min-width:0;padding:8px 10px;border-radius:9px;color:var(--navy-900);background:var(--surface);font-size:12px;font-weight:800;overflow-wrap:anywhere}
+    .demo-count b{display:block;color:var(--teal-750);font-size:17px;line-height:1.2}
+    @media(max-width:460px){.demo-counts{grid-template-columns:1fr}}
     .error-message{margin-top:9px;padding:10px 12px;border-left:4px solid var(--danger);border-radius:7px 11px 11px 7px;color:#7f1d24;background:#fff0f1;font-size:15px;font-weight:800;line-height:1.65;overflow-wrap:anywhere}
     .action-result{margin-top:14px;padding:13px 15px;border-radius:13px;font-size:15px;font-weight:850;line-height:1.65;overflow-wrap:anywhere}
     .action-result.ok-result{color:var(--success);border:1px solid #a8d7b8;background:var(--success-bg)}
@@ -74,7 +80,8 @@
     @media(max-width:460px){.control{grid-template-columns:1fr}.metric-grid{grid-template-columns:1fr}.code-row{grid-template-columns:1fr}}
     @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
   </style>
-  <meta name="dpro-build" content="chosashi-8-r2-demo-fix-20260717">
+  <meta name="dpro-build" content="chosashi-8-r3-demo-result-layout-20260717">
+  <!-- CHOSASHI-8-R3 DEMO RESULT LAYOUT FIX 20260717 -->
 </head>
 <body>
   <div class="top-note">営業前に、API・DB・非公開Storage・各画面・デモデータを一括検査します</div>
@@ -366,7 +373,16 @@
       showLoading("デモデータを準備しています");$("demoButton").disabled=true;
       try{
         const d=await api("/api/admin/demo-prepare",{method:"POST",body:{}});
-        $("demoResult").innerHTML=`<div class="check-card"><div class="check-top"><div><div class="check-name">デモデータ準備完了</div><div class="check-meta">${esc(JSON.stringify(d.counts))}</div></div><span class="status ok">OK</span></div></div>`;
+        const counts=d.counts||{};
+        const countLabels={
+          staff:"スタッフ",clients:"依頼者",properties:"物件",cases:"案件",
+          appointments:"予定",tasks:"タスク",document_requests:"必要書類",
+          boundary_neighbors:"隣接地",field_reports:"現場報告",photos:"写真",documents:"提出資料"
+        };
+        const countCards=Object.entries(countLabels).map(([key,label])=>
+          `<div class="demo-count"><b>${Number(counts[key]||0)}</b>${esc(label)}</div>`
+        ).join("");
+        $("demoResult").innerHTML=`<div class="check-card"><div class="check-top"><div><div class="check-name">デモデータ準備完了</div><div class="check-meta">標準案件と関連データを安全に再生成しました。</div></div><span class="status ok">OK</span></div><div class="demo-counts">${countCards}</div></div>`;
         const caseText=(d.canonical_case_numbers||[]).join("、");
         showActionResult(`デモデータ準備が完了しました。標準案件：${caseText||"2件"}。続けてsystem-checkを再実行します。`);
         toast("デモデータを準備しました。");await runAll();
