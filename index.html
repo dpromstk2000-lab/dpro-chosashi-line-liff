@@ -1,0 +1,1738 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#17324d">
+  <meta name="format-detection" content="telephone=no">
+  <title>DPRO 土地家屋調査士 LINE｜ご相談受付</title>
+  <meta name="description" content="土地の境界、測量、分筆・合筆、建物表題登記などのご相談をLINEから受け付けます。">
+  <script src="config.js"></script>
+  <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+  <style>
+    :root {
+      --navy-950: #0f2336;
+      --navy-900: #17324d;
+      --navy-800: #23445f;
+      --teal-700: #147d7e;
+      --teal-600: #199395;
+      --teal-100: #dff2f0;
+      --sand-100: #f7f1e4;
+      --sand-200: #eee1c6;
+      --paper: #ffffff;
+      --surface: #f5f7f8;
+      --line: #d6dee3;
+      --text: #1d2b35;
+      --muted: #5c6c77;
+      --success: #17643b;
+      --success-bg: #e6f5ec;
+      --warning: #8a5800;
+      --warning-bg: #fff4d7;
+      --danger: #a3272e;
+      --danger-bg: #fdebed;
+      --shadow: 0 14px 35px rgba(15, 35, 54, 0.11);
+      --radius-xl: 24px;
+      --radius-lg: 18px;
+      --radius-md: 13px;
+      --font: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans JP",
+        "Yu Gothic UI", "Hiragino Kaku Gothic ProN", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-width: 320px;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 90% 0%, rgba(20, 125, 126, .12), transparent 27rem),
+        linear-gradient(180deg, #eef3f5 0, #f8f5ee 22rem, #f5f7f8 100%);
+      font-family: var(--font);
+      font-size: 18px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    button, input, select, textarea { font: inherit; }
+    button { cursor: pointer; }
+    a { color: inherit; }
+    [hidden] { display: none !important; }
+
+    .skip-link {
+      position: fixed;
+      left: 12px;
+      top: -80px;
+      z-index: 9999;
+      padding: 12px 18px;
+      border-radius: 10px;
+      color: #fff;
+      background: var(--navy-950);
+    }
+    .skip-link:focus { top: 12px; }
+
+    .topbar {
+      padding: max(12px, env(safe-area-inset-top)) 18px 12px;
+      color: #fff;
+      background: var(--navy-950);
+      font-size: 15px;
+      text-align: center;
+      letter-spacing: .02em;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      color: #fff;
+      background:
+        linear-gradient(135deg, rgba(15, 35, 54, .99), rgba(23, 50, 77, .96) 55%, rgba(20, 125, 126, .9));
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      width: 460px;
+      height: 460px;
+      right: -220px;
+      top: -250px;
+      border: 55px solid rgba(255, 255, 255, .055);
+      border-radius: 50%;
+    }
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 38px 0 42px;
+    }
+    .brand-line {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+    .brand-mark {
+      display: grid;
+      place-items: center;
+      width: 54px;
+      height: 54px;
+      flex: 0 0 54px;
+      border: 2px solid rgba(255,255,255,.48);
+      border-radius: 16px;
+      color: var(--navy-950);
+      background: var(--sand-100);
+      font-size: 25px;
+      font-weight: 900;
+    }
+    .brand-name {
+      margin: 0;
+      font-size: clamp(18px, 3.2vw, 24px);
+      font-weight: 800;
+      letter-spacing: .025em;
+    }
+    .brand-sub {
+      margin: 2px 0 0;
+      color: rgba(255,255,255,.76);
+      font-size: 15px;
+    }
+    .hero h1 {
+      max-width: 830px;
+      margin: 0;
+      font-size: clamp(30px, 6vw, 48px);
+      line-height: 1.28;
+      letter-spacing: .01em;
+    }
+    .hero-lead {
+      max-width: 760px;
+      margin: 18px 0 0;
+      color: rgba(255,255,255,.9);
+      font-size: clamp(17px, 2.7vw, 20px);
+    }
+    .trust-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 24px;
+    }
+    .trust-chip {
+      padding: 8px 13px;
+      border: 1px solid rgba(255,255,255,.24);
+      border-radius: 999px;
+      color: rgba(255,255,255,.92);
+      background: rgba(255,255,255,.08);
+      font-size: 15px;
+      font-weight: 700;
+    }
+
+    .main {
+      width: min(1120px, calc(100% - 28px));
+      margin: -22px auto 80px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .status-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 13px;
+      margin-bottom: 18px;
+      padding: 16px 18px;
+      border: 1px solid #bdded9;
+      border-radius: var(--radius-lg);
+      background: rgba(255,255,255,.94);
+      box-shadow: var(--shadow);
+    }
+    .status-dot {
+      width: 13px;
+      height: 13px;
+      margin-top: 9px;
+      flex: 0 0 13px;
+      border-radius: 50%;
+      background: var(--teal-600);
+      box-shadow: 0 0 0 5px var(--teal-100);
+    }
+    .status-title { font-size: 17px; font-weight: 850; }
+    .status-text { margin: 2px 0 0; color: var(--muted); font-size: 15px; }
+
+    .stepper {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-bottom: 18px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      background: rgba(255,255,255,.94);
+      box-shadow: var(--shadow);
+    }
+    .step {
+      min-width: 0;
+      padding: 9px 6px;
+      border-radius: 12px;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 800;
+      text-align: center;
+    }
+    .step span {
+      display: grid;
+      place-items: center;
+      width: 29px;
+      height: 29px;
+      margin: 0 auto 5px;
+      border: 2px solid var(--line);
+      border-radius: 50%;
+      background: #fff;
+      font-size: 14px;
+    }
+    .step.active { color: var(--navy-900); background: var(--teal-100); }
+    .step.active span { color: #fff; border-color: var(--teal-700); background: var(--teal-700); }
+    .step.done { color: var(--success); }
+    .step.done span { color: #fff; border-color: var(--success); background: var(--success); }
+
+    .panel {
+      padding: clamp(20px, 4vw, 38px);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-xl);
+      background: rgba(255,255,255,.97);
+      box-shadow: var(--shadow);
+    }
+    .panel + .panel { margin-top: 20px; }
+
+    .section-kicker {
+      margin: 0 0 5px;
+      color: var(--teal-700);
+      font-size: 15px;
+      font-weight: 900;
+      letter-spacing: .09em;
+    }
+    .section-title {
+      margin: 0;
+      color: var(--navy-950);
+      font-size: clamp(24px, 4.4vw, 34px);
+      line-height: 1.35;
+    }
+    .section-lead {
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 17px;
+    }
+
+    .notice {
+      margin-top: 18px;
+      padding: 15px 17px;
+      border-left: 5px solid var(--teal-700);
+      border-radius: 8px 13px 13px 8px;
+      color: var(--navy-900);
+      background: var(--teal-100);
+      font-size: 16px;
+    }
+    .notice.warning {
+      border-left-color: #b67600;
+      color: #644100;
+      background: var(--warning-bg);
+    }
+
+    .service-tabs {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 24px;
+    }
+    .service-tab {
+      min-height: 102px;
+      padding: 17px 12px;
+      border: 2px solid var(--line);
+      border-radius: var(--radius-lg);
+      color: var(--navy-900);
+      background: #fff;
+      font-weight: 850;
+      text-align: center;
+      transition: .18s ease;
+    }
+    .service-tab:hover { transform: translateY(-1px); border-color: #86b8b4; }
+    .service-tab.selected {
+      border-color: var(--teal-700);
+      background: var(--teal-100);
+      box-shadow: inset 0 0 0 1px var(--teal-700);
+    }
+    .service-icon {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 30px;
+      line-height: 1;
+    }
+    .service-note {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 650;
+    }
+
+    .choice-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 18px;
+    }
+    .choice {
+      position: relative;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      min-height: 84px;
+      padding: 15px;
+      border: 2px solid var(--line);
+      border-radius: var(--radius-lg);
+      background: #fff;
+      cursor: pointer;
+      transition: .18s ease;
+    }
+    .choice:hover { border-color: #8fbab7; }
+    .choice.selected {
+      border-color: var(--teal-700);
+      background: #eef9f7;
+      box-shadow: inset 0 0 0 1px var(--teal-700);
+    }
+    .choice input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+    .choice-check {
+      display: grid;
+      place-items: center;
+      width: 27px;
+      height: 27px;
+      flex: 0 0 27px;
+      border: 2px solid #aab7bf;
+      border-radius: 50%;
+      background: #fff;
+      color: transparent;
+      font-size: 16px;
+      font-weight: 900;
+    }
+    .choice.selected .choice-check {
+      color: #fff;
+      border-color: var(--teal-700);
+      background: var(--teal-700);
+    }
+    .choice-title {
+      display: block;
+      color: var(--navy-950);
+      font-size: 17px;
+      font-weight: 850;
+      line-height: 1.45;
+    }
+    .choice-desc {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 20px 18px;
+      margin-top: 24px;
+    }
+    .field.full { grid-column: 1 / -1; }
+    .field label,
+    .field-title {
+      display: block;
+      margin-bottom: 7px;
+      color: var(--navy-950);
+      font-size: 16px;
+      font-weight: 850;
+    }
+    .required {
+      display: inline-block;
+      margin-left: 7px;
+      padding: 2px 7px;
+      border-radius: 6px;
+      color: #fff;
+      background: var(--danger);
+      font-size: 12px;
+      vertical-align: 2px;
+    }
+    .optional {
+      display: inline-block;
+      margin-left: 7px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 650;
+    }
+    input, select, textarea {
+      width: 100%;
+      min-height: 54px;
+      padding: 12px 14px;
+      border: 2px solid #c8d2d8;
+      border-radius: var(--radius-md);
+      color: var(--text);
+      background: #fff;
+      font-size: 17px;
+      outline: none;
+      transition: border-color .16s, box-shadow .16s;
+    }
+    textarea { min-height: 150px; resize: vertical; }
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--teal-700);
+      box-shadow: 0 0 0 4px rgba(20,125,126,.14);
+    }
+    input[aria-invalid="true"],
+    select[aria-invalid="true"],
+    textarea[aria-invalid="true"] {
+      border-color: var(--danger);
+      background: #fffafb;
+    }
+    .help {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.55;
+    }
+    .error {
+      min-height: 1.4em;
+      margin: 5px 0 0;
+      color: var(--danger);
+      font-size: 14px;
+      font-weight: 750;
+    }
+
+    .lookup-box {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 14px;
+      align-items: center;
+      margin-top: 22px;
+      padding: 17px;
+      border: 1px solid #bdded9;
+      border-radius: var(--radius-lg);
+      background: #f2faf9;
+    }
+    .lookup-title {
+      margin: 0;
+      color: var(--navy-950);
+      font-size: 17px;
+      font-weight: 850;
+    }
+    .lookup-text { margin: 3px 0 0; color: var(--muted); font-size: 14px; }
+    .lookup-result {
+      margin-top: 12px;
+      padding: 14px 16px;
+      border-radius: 12px;
+      color: var(--success);
+      background: var(--success-bg);
+      font-weight: 800;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 52px;
+      padding: 12px 20px;
+      border: 0;
+      border-radius: 13px;
+      font-size: 17px;
+      font-weight: 850;
+      text-decoration: none;
+      transition: transform .15s, box-shadow .15s, opacity .15s;
+    }
+    .btn:hover { transform: translateY(-1px); }
+    .btn:disabled { cursor: not-allowed; opacity: .55; transform: none; }
+    .btn-primary {
+      color: #fff;
+      background: linear-gradient(135deg, var(--teal-700), var(--teal-600));
+      box-shadow: 0 9px 20px rgba(20,125,126,.25);
+    }
+    .btn-navy {
+      color: #fff;
+      background: var(--navy-900);
+      box-shadow: 0 9px 20px rgba(23,50,77,.22);
+    }
+    .btn-secondary {
+      color: var(--navy-900);
+      border: 2px solid #b8c5cc;
+      background: #fff;
+    }
+    .btn-small { min-height: 46px; padding: 10px 15px; font-size: 15px; }
+
+    .check-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-top: 22px;
+      padding: 17px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      background: var(--surface);
+      cursor: pointer;
+    }
+    .check-row input {
+      width: 24px;
+      height: 24px;
+      min-height: 24px;
+      margin: 4px 0 0;
+      flex: 0 0 24px;
+      accent-color: var(--teal-700);
+    }
+    .check-row strong { color: var(--navy-950); }
+    .check-row p { margin: 3px 0 0; color: var(--muted); font-size: 14px; }
+
+    .actions {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 28px;
+    }
+    .actions .btn { min-width: 150px; }
+
+    .summary {
+      margin-top: 23px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+    .summary-row {
+      display: grid;
+      grid-template-columns: 190px 1fr;
+      border-top: 1px solid var(--line);
+    }
+    .summary-row:first-child { border-top: 0; }
+    .summary-label {
+      padding: 13px 16px;
+      color: var(--navy-900);
+      background: #edf2f4;
+      font-weight: 850;
+    }
+    .summary-value {
+      min-width: 0;
+      padding: 13px 16px;
+      overflow-wrap: anywhere;
+      white-space: pre-wrap;
+    }
+
+    .complete {
+      text-align: center;
+    }
+    .complete-icon {
+      display: grid;
+      place-items: center;
+      width: 82px;
+      height: 82px;
+      margin: 4px auto 20px;
+      border-radius: 50%;
+      color: #fff;
+      background: var(--success);
+      box-shadow: 0 0 0 12px var(--success-bg);
+      font-size: 40px;
+      font-weight: 900;
+    }
+    .receipt {
+      width: min(620px, 100%);
+      margin: 24px auto 0;
+      padding: 19px;
+      border: 1px dashed #9eb0bb;
+      border-radius: var(--radius-lg);
+      background: var(--surface);
+      text-align: left;
+    }
+    .receipt strong { color: var(--navy-950); }
+
+    .footer {
+      padding: 28px 16px calc(28px + env(safe-area-inset-bottom));
+      color: #d9e2e8;
+      background: var(--navy-950);
+      text-align: center;
+      font-size: 14px;
+    }
+    .footer strong { color: #fff; }
+    .footer p { margin: 4px 0; }
+
+    .loading {
+      position: fixed;
+      inset: 0;
+      z-index: 9998;
+      display: grid;
+      place-items: center;
+      padding: 20px;
+      background: rgba(15,35,54,.7);
+      backdrop-filter: blur(4px);
+    }
+    .loading-card {
+      width: min(360px, 100%);
+      padding: 25px;
+      border-radius: 20px;
+      background: #fff;
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+    .spinner {
+      width: 44px;
+      height: 44px;
+      margin: 0 auto 13px;
+      border: 5px solid #d8e8e7;
+      border-top-color: var(--teal-700);
+      border-radius: 50%;
+      animation: spin .85s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .toast {
+      position: fixed;
+      z-index: 9999;
+      left: 50%;
+      bottom: max(20px, env(safe-area-inset-bottom));
+      width: min(620px, calc(100% - 28px));
+      transform: translate(-50%, 30px);
+      padding: 15px 18px;
+      border-radius: 14px;
+      color: #fff;
+      background: var(--navy-950);
+      box-shadow: 0 16px 40px rgba(0,0,0,.28);
+      opacity: 0;
+      pointer-events: none;
+      transition: .25s ease;
+      font-size: 16px;
+      font-weight: 750;
+      text-align: center;
+    }
+    .toast.show { transform: translate(-50%, 0); opacity: 1; }
+    .toast.error-toast { background: var(--danger); }
+
+    .demo-badge {
+      position: fixed;
+      right: 12px;
+      bottom: max(12px, env(safe-area-inset-bottom));
+      z-index: 20;
+      padding: 7px 10px;
+      border-radius: 999px;
+      color: #fff;
+      background: #9a6400;
+      box-shadow: 0 6px 18px rgba(0,0,0,.18);
+      font-size: 12px;
+      font-weight: 850;
+    }
+
+    @media (max-width: 760px) {
+      body { font-size: 17px; }
+      .hero-inner { padding-top: 27px; }
+      .main { width: min(100% - 20px, 1120px); margin-top: -16px; }
+      .panel { border-radius: 20px; }
+      .stepper { gap: 2px; padding: 10px 6px; }
+      .step { padding-inline: 2px; font-size: 12px; }
+      .step span { width: 27px; height: 27px; }
+      .service-tabs { grid-template-columns: 1fr; }
+      .service-tab {
+        min-height: 74px;
+        display: grid;
+        grid-template-columns: 42px 1fr;
+        align-items: center;
+        text-align: left;
+      }
+      .service-icon { margin: 0; text-align: center; }
+      .choice-grid, .form-grid { grid-template-columns: 1fr; }
+      .field.full { grid-column: auto; }
+      .lookup-box { grid-template-columns: 1fr; }
+      .summary-row { grid-template-columns: 1fr; }
+      .summary-label { padding-bottom: 5px; }
+      .summary-value { padding-top: 5px; }
+      .actions { flex-direction: column-reverse; }
+      .actions .btn { width: 100%; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation: none !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">入力画面へ移動</a>
+
+  <div class="topbar">土地・建物について「どこへ相談すればよいか分からない」段階でも大丈夫です</div>
+
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="brand-line">
+        <div class="brand-mark" aria-hidden="true">境</div>
+        <div>
+          <p class="brand-name" id="officeName">DPRO土地家屋調査士事務所</p>
+          <p class="brand-sub">土地・建物の調査、測量、境界、表示登記のご相談</p>
+        </div>
+      </div>
+      <h1>土地と建物のお困りごとを<br>LINEから分かりやすく受付</h1>
+      <p class="hero-lead">
+        専門用語が分からなくても、現在の状況に近い項目を選ぶだけでご相談いただけます。
+        受付後、内容を確認して担当者からご連絡します。
+      </p>
+      <div class="trust-row" aria-label="受付の特徴">
+        <span class="trust-chip">相談内容を簡単選択</span>
+        <span class="trust-chip">30分単位の希望日時</span>
+        <span class="trust-chip">2回目以降の入力を省略</span>
+        <span class="trust-chip">入力内容は非公開管理</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="main" id="main">
+    <div class="status-card" aria-live="polite">
+      <span class="status-dot" aria-hidden="true"></span>
+      <div>
+        <div class="status-title" id="connectionTitle">受付システムを確認しています</div>
+        <p class="status-text" id="connectionText">事務所情報を読み込んでいます。</p>
+      </div>
+    </div>
+
+    <nav class="stepper" aria-label="入力ステップ">
+      <div class="step active" data-step-indicator="1"><span>1</span>相談内容</div>
+      <div class="step" data-step-indicator="2"><span>2</span>お客様情報</div>
+      <div class="step" data-step-indicator="3"><span>3</span>物件・日時</div>
+      <div class="step" data-step-indicator="4"><span>4</span>内容確認</div>
+    </nav>
+
+    <form id="inquiryForm" novalidate>
+      <section class="panel" data-step="1">
+        <p class="section-kicker">STEP 1</p>
+        <h2 class="section-title">ご相談に近いものを選んでください</h2>
+        <p class="section-lead">完全に一致しなくても構いません。事務所で内容を確認して適切な手続きをご案内します。</p>
+
+        <div class="service-tabs" role="tablist" aria-label="相談区分">
+          <button class="service-tab selected" type="button" data-category="land" role="tab" aria-selected="true">
+            <span class="service-icon" aria-hidden="true">⌖</span>
+            <span>土地について<span class="service-note">境界・測量・分筆など</span></span>
+          </button>
+          <button class="service-tab" type="button" data-category="building" role="tab" aria-selected="false">
+            <span class="service-icon" aria-hidden="true">▦</span>
+            <span>建物について<span class="service-note">新築・増築・取壊しなど</span></span>
+          </button>
+          <button class="service-tab" type="button" data-category="other" role="tab" aria-selected="false">
+            <span class="service-icon" aria-hidden="true">?</span>
+            <span>よく分からない<span class="service-note">内容を文章で相談</span></span>
+          </button>
+        </div>
+
+        <div id="caseChoices" class="choice-grid" aria-live="polite"></div>
+        <p class="error" id="caseTypeError"></p>
+
+        <div class="field full" style="margin-top:22px">
+          <label for="consultationSummary">現在の状況・お困りごと<span class="required">必須</span></label>
+          <textarea id="consultationSummary" maxlength="4000"
+            placeholder="例：土地を売却する予定ですが、隣地との境界杭が見つかりません。どのような調査が必要か相談したいです。"></textarea>
+          <p class="help">分かる範囲で構いません。経緯や希望時期も記入すると確認がスムーズです。</p>
+          <p class="error" id="consultationSummaryError"></p>
+        </div>
+
+        <div class="notice">
+          見積金額や受任可否は、資料・現地状況・関係者確認の内容によって変わります。この画面だけで正式な契約や登記申請は行いません。
+        </div>
+
+        <div class="actions">
+          <span></span>
+          <button type="button" class="btn btn-primary" data-next="2">お客様情報へ進む</button>
+        </div>
+      </section>
+
+      <section class="panel" data-step="2" hidden>
+        <p class="section-kicker">STEP 2</p>
+        <h2 class="section-title">ご連絡先を入力してください</h2>
+        <p class="section-lead">LINEで過去に登録済みの場合は、自動的に基本情報を確認します。</p>
+
+        <div class="lookup-box">
+          <div>
+            <p class="lookup-title">以前ご相談いただいた方</p>
+            <p class="lookup-text">氏名と電話番号を入力後、「登録情報を確認」を押すと以前の情報を取得できます。</p>
+          </div>
+          <button type="button" class="btn btn-secondary btn-small" id="lookupButton">登録情報を確認</button>
+        </div>
+        <div id="lookupResult" class="lookup-result" hidden></div>
+
+        <div class="form-grid">
+          <div class="field">
+            <label for="name">お名前<span class="required">必須</span></label>
+            <input id="name" autocomplete="name" maxlength="120" placeholder="山田 太郎">
+            <p class="error" id="nameError"></p>
+          </div>
+          <div class="field">
+            <label for="nameKana">フリガナ<span class="optional">任意</span></label>
+            <input id="nameKana" autocomplete="off" maxlength="120" placeholder="ヤマダ タロウ">
+            <p class="error" id="nameKanaError"></p>
+          </div>
+          <div class="field">
+            <label for="phone">電話番号<span class="required">必須</span></label>
+            <input id="phone" inputmode="tel" autocomplete="tel" maxlength="30" placeholder="090-1234-5678">
+            <p class="help">ハイフン、全角、+81形式でも登録できます。</p>
+            <p class="error" id="phoneError"></p>
+          </div>
+          <div class="field">
+            <label for="email">メールアドレス<span class="optional">任意</span></label>
+            <input id="email" type="email" autocomplete="email" maxlength="180" placeholder="example@example.com">
+            <p class="error" id="emailError"></p>
+          </div>
+          <div class="field">
+            <label for="clientType">ご依頼者の区分<span class="required">必須</span></label>
+            <select id="clientType">
+              <option value="owner">土地・建物の所有者</option>
+              <option value="heir">相続人・相続予定者</option>
+              <option value="corporation">法人・事業者</option>
+              <option value="real_estate">不動産会社</option>
+              <option value="builder">工務店・建築会社</option>
+              <option value="judicial_scrivener">司法書士</option>
+              <option value="administrative_scrivener">行政書士</option>
+              <option value="tax_accountant">税理士</option>
+              <option value="financial_institution">金融機関</option>
+              <option value="other">その他</option>
+            </select>
+            <p class="error" id="clientTypeError"></p>
+          </div>
+          <div class="field">
+            <label for="preferredContact">希望する連絡方法<span class="required">必須</span></label>
+            <select id="preferredContact">
+              <option value="line">LINE</option>
+              <option value="phone">電話</option>
+              <option value="email">メール</option>
+              <option value="mail">郵送</option>
+            </select>
+            <p class="error" id="preferredContactError"></p>
+          </div>
+          <div class="field">
+            <label for="postalCode">郵便番号<span class="optional">任意</span></label>
+            <input id="postalCode" inputmode="numeric" autocomplete="postal-code" maxlength="20" placeholder="811-2202">
+            <p class="error" id="postalCodeError"></p>
+          </div>
+          <div class="field">
+            <label for="clientAddress">現在のお住まい・会社住所<span class="optional">任意</span></label>
+            <input id="clientAddress" autocomplete="street-address" maxlength="300" placeholder="福岡県糟屋郡志免町…">
+            <p class="error" id="clientAddressError"></p>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button type="button" class="btn btn-secondary" data-back="1">戻る</button>
+          <button type="button" class="btn btn-primary" data-next="3">物件・希望日時へ進む</button>
+        </div>
+      </section>
+
+      <section class="panel" data-step="3" hidden>
+        <p class="section-kicker">STEP 3</p>
+        <h2 class="section-title">対象の土地・建物について</h2>
+        <p class="section-lead">地番や家屋番号が不明な場合は、住所だけでも受け付けできます。</p>
+
+        <div class="form-grid">
+          <div class="field">
+            <label for="prefecture">都道府県<span class="required">必須</span></label>
+            <input id="prefecture" maxlength="60" value="福岡県" placeholder="福岡県">
+            <p class="error" id="prefectureError"></p>
+          </div>
+          <div class="field">
+            <label for="city">市区町村<span class="required">必須</span></label>
+            <input id="city" maxlength="120" placeholder="糟屋郡志免町">
+            <p class="error" id="cityError"></p>
+          </div>
+          <div class="field full">
+            <label for="propertyAddress">町名・番地・建物名<span class="required">必須</span></label>
+            <input id="propertyAddress" maxlength="300" placeholder="志免中央2-10-5">
+            <p class="help">住居表示で構いません。登記上の所在地が分かる場合は下欄へ入力してください。</p>
+            <p class="error" id="propertyAddressError"></p>
+          </div>
+          <div class="field">
+            <label for="lotNumber">地番<span class="optional">分かる場合</span></label>
+            <input id="lotNumber" maxlength="120" placeholder="123番4">
+            <p class="error" id="lotNumberError"></p>
+          </div>
+          <div class="field">
+            <label for="houseNumber">家屋番号<span class="optional">分かる場合</span></label>
+            <input id="houseNumber" maxlength="120" placeholder="123番4">
+            <p class="error" id="houseNumberError"></p>
+          </div>
+          <div class="field full">
+            <label for="registryAddress">登記上の所在地<span class="optional">任意</span></label>
+            <input id="registryAddress" maxlength="300" placeholder="福岡県糟屋郡志免町志免中央二丁目123番4">
+            <p class="error" id="registryAddressError"></p>
+          </div>
+          <div class="field">
+            <label for="ownerName">登記名義人・所有者名<span class="optional">任意</span></label>
+            <input id="ownerName" maxlength="160" placeholder="山田 太郎">
+            <p class="error" id="ownerNameError"></p>
+          </div>
+          <div class="field">
+            <label for="currentUse">現在の利用状況<span class="optional">任意</span></label>
+            <input id="currentUse" maxlength="120" placeholder="宅地、住宅、駐車場、畑など">
+            <p class="error" id="currentUseError"></p>
+          </div>
+        </div>
+
+        <div class="notice warning">
+          土地の所在地と現在のお住まいが異なる場合があります。ここには「相談対象となる土地・建物の所在地」を入力してください。
+        </div>
+
+        <h3 class="section-title" style="font-size:24px;margin-top:30px">相談希望日時</h3>
+        <p class="section-lead">日時は第1希望として受け付けます。担当者の予定確認後に正式決定します。</p>
+
+        <div class="form-grid">
+          <div class="field">
+            <label for="preferredDate">希望日<span class="optional">任意</span></label>
+            <input id="preferredDate" type="date">
+            <p class="error" id="preferredDateError"></p>
+          </div>
+          <div class="field">
+            <label for="preferredTime">希望時間<span class="optional">任意</span></label>
+            <select id="preferredTime">
+              <option value="">時間を選択してください</option>
+            </select>
+            <p class="help">30分単位で表示します。休業日は選択できません。</p>
+            <p class="error" id="preferredTimeError"></p>
+          </div>
+          <div class="field full">
+            <label for="appointmentNotes">相談方法・時間についての希望<span class="optional">任意</span></label>
+            <textarea id="appointmentNotes" maxlength="1500" style="min-height:110px"
+              placeholder="例：最初は電話相談を希望します。平日は17時以降が連絡可能です。"></textarea>
+            <p class="error" id="appointmentNotesError"></p>
+          </div>
+        </div>
+
+        <label class="check-row" for="privacyConsent">
+          <input id="privacyConsent" type="checkbox">
+          <span>
+            <strong>個人情報の取り扱いに同意します<span class="required">必須</span></strong>
+            <p>入力内容は相談受付、本人確認、案件対応、日程調整のために使用します。必要のない機微情報やマイナンバーは入力しないでください。</p>
+          </span>
+        </label>
+        <p class="error" id="privacyConsentError"></p>
+
+        <div class="actions">
+          <button type="button" class="btn btn-secondary" data-back="2">戻る</button>
+          <button type="button" class="btn btn-primary" data-next="4">入力内容を確認する</button>
+        </div>
+      </section>
+
+      <section class="panel" data-step="4" hidden>
+        <p class="section-kicker">STEP 4</p>
+        <h2 class="section-title">入力内容をご確認ください</h2>
+        <p class="section-lead">修正する場合は「戻って修正」を押してください。送信後、受付番号を表示します。</p>
+
+        <div class="summary" id="confirmationSummary"></div>
+
+        <div class="notice">
+          送信は「相談受付」です。正式な受任・契約・登記申請ではありません。事務所からの連絡をお待ちください。
+        </div>
+
+        <div class="actions">
+          <button type="button" class="btn btn-secondary" data-back="3">戻って修正</button>
+          <button type="submit" class="btn btn-navy" id="submitButton">この内容で相談を送信</button>
+        </div>
+      </section>
+    </form>
+
+    <section class="panel complete" id="completePanel" hidden>
+      <div class="complete-icon" aria-hidden="true">✓</div>
+      <p class="section-kicker">受付完了</p>
+      <h2 class="section-title">ご相談を受け付けました</h2>
+      <p class="section-lead">内容を確認のうえ、事務所からご連絡します。画面を閉じる前に受付番号をご確認ください。</p>
+
+      <div class="receipt">
+        <p><strong>受付番号：</strong><span id="receiptCaseNo">―</span></p>
+        <p><strong>相談内容：</strong><span id="receiptCaseTitle">―</span></p>
+        <p><strong>現在の状況：</strong><span id="receiptStatus">ご相談受付</span></p>
+      </div>
+
+      <div class="notice" style="text-align:left">
+        資料や現地写真の提出が必要な場合は、担当者からマイページをご案内します。個人情報を含む資料を通常のSNS投稿や公開URLへ置かないでください。
+      </div>
+
+      <div class="actions" style="justify-content:center">
+        <button type="button" class="btn btn-secondary" id="newInquiryButton">別の相談を入力する</button>
+        <button type="button" class="btn btn-primary" id="closeButton">画面を閉じる</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p><strong id="footerOfficeName">DPRO土地家屋調査士事務所</strong></p>
+    <p id="footerAddress">福岡県糟屋郡志免町</p>
+    <p>この受付画面はDPRO 土地家屋調査士 LINEで提供しています。</p>
+  </footer>
+
+  <div class="loading" id="loading" hidden aria-live="assertive">
+    <div class="loading-card">
+      <div class="spinner" aria-hidden="true"></div>
+      <strong id="loadingText">処理しています</strong>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <div class="demo-badge" id="demoBadge" hidden>デモ画面</div>
+
+  <script>
+    "use strict";
+
+    const CONFIG = window.DPRO_CONFIG || {};
+    const state = {
+      step: 1,
+      category: "land",
+      caseType: "",
+      lineUserId: "",
+      profile: null,
+      office: null,
+      returningClient: false,
+      submitted: false,
+      demo: new URLSearchParams(location.search).get("demo") === "1"
+    };
+
+    const CASE_OPTIONS = {
+      land: [
+        ["boundary_confirmation", "土地の境界を確認したい", "境界位置の確認、確定測量、境界確認書など"],
+        ["boundary_marker_restoration", "境界杭が見つからない", "境界標の探索・復元について相談"],
+        ["land_subdivision", "土地を分けたい", "分筆登記、売却・相続・分譲に伴う分割"],
+        ["land_merger", "土地を一つにまとめたい", "複数の土地を一筆にする合筆登記"],
+        ["land_category_change", "土地の利用方法が変わった", "畑から宅地など、地目変更登記"],
+        ["land_area_correction", "登記面積と現況が異なる", "地積更正登記や測量について相談"],
+        ["current_condition_survey", "現況測量を依頼したい", "建築・売買・計画前の現況把握"],
+        ["inheritance_property", "相続した土地を確認したい", "場所、境界、地番、現況について相談"],
+        ["property_investigation", "公図と現況が異なる", "資料調査、現地確認について相談"],
+        ["other", "その他の土地相談", "上記にない内容はこちら"]
+      ],
+      building: [
+        ["building_title_registration", "建物を新築した", "新築建物の表題登記について相談"],
+        ["building_change_registration", "増築・用途変更をした", "床面積、種類、構造などの変更登記"],
+        ["building_loss_registration", "建物を取り壊した", "建物滅失登記について相談"],
+        ["unregistered_building", "未登記の建物がある", "登記状況の確認や表題登記について相談"],
+        ["property_investigation", "建物の登記内容を確認したい", "現況と登記の違いを調査"],
+        ["other", "その他の建物相談", "上記にない内容はこちら"]
+      ],
+      other: [
+        ["property_investigation", "何を調べればよいか分からない", "資料や現地の状況から必要な対応を確認"],
+        ["inheritance_property", "相続した不動産について相談したい", "土地・建物の場所や登記状況を確認"],
+        ["other", "文章で相談したい", "担当者が内容を確認してご案内"]
+      ]
+    };
+
+    const CASE_LABELS = Object.fromEntries(
+      Object.values(CASE_OPTIONS).flat().map(([value, label]) => [value, label])
+    );
+
+    const STATUS_LABELS = {
+      inquiry_received: "ご相談受付",
+      reviewing: "内容確認中",
+      estimate_preparing: "お見積り作成中"
+    };
+
+    const $ = (id) => document.getElementById(id);
+    const qsa = (selector) => Array.from(document.querySelectorAll(selector));
+
+    document.addEventListener("DOMContentLoaded", init);
+
+    async function init() {
+      setMinimumDate();
+      buildTimeOptions();
+      renderCaseChoices();
+      bindEvents();
+
+      if (state.demo) {
+        $("demoBadge").hidden = false;
+        fillDemoData();
+      }
+
+      await Promise.allSettled([loadOffice(), initializeLiff()]);
+      updateConnectionStatus();
+    }
+
+    function bindEvents() {
+      qsa(".service-tab").forEach((button) => {
+        button.addEventListener("click", () => selectCategory(button.dataset.category));
+      });
+
+      qsa("[data-next]").forEach((button) => {
+        button.addEventListener("click", () => {
+          const target = Number(button.dataset.next);
+          if (validateStep(state.step)) showStep(target);
+        });
+      });
+
+      qsa("[data-back]").forEach((button) => {
+        button.addEventListener("click", () => showStep(Number(button.dataset.back)));
+      });
+
+      $("lookupButton").addEventListener("click", lookupRegisteredClient);
+      $("preferredDate").addEventListener("change", buildTimeOptions);
+      $("inquiryForm").addEventListener("submit", submitInquiry);
+      $("newInquiryButton").addEventListener("click", resetForm);
+      $("closeButton").addEventListener("click", closeWindow);
+
+      ["name", "phone", "email", "consultationSummary", "prefecture", "city", "propertyAddress"].forEach((id) => {
+        $(id).addEventListener("input", () => clearFieldError(id));
+      });
+    }
+
+    async function loadOffice() {
+      try {
+        const data = await api("/api/public/config");
+        state.office = data.office;
+        $("officeName").textContent = data.office.office_name;
+        $("footerOfficeName").textContent = data.office.office_name;
+        $("footerAddress").textContent = [data.office.address, data.office.phone].filter(Boolean).join("／");
+        buildTimeOptions();
+      } catch (error) {
+        console.error(error);
+        $("connectionTitle").textContent = "受付画面を表示しています";
+        $("connectionText").textContent = "事務所情報の取得に時間がかかっています。入力は続けられます。";
+      }
+    }
+
+    async function initializeLiff() {
+      if (!CONFIG.liffId || !window.liff) {
+        if (state.demo) state.lineUserId = CONFIG.demoLineUserId || "";
+        return;
+      }
+
+      try {
+        await liff.init({ liffId: CONFIG.liffId });
+        if (!liff.isLoggedIn()) {
+          liff.login({ redirectUri: location.href });
+          return;
+        }
+        state.lineUserId = liff.getDecodedIDToken()?.sub || "";
+        try {
+          state.profile = await liff.getProfile();
+        } catch (profileError) {
+          console.warn("LIFF profile unavailable", profileError);
+        }
+
+        if (state.lineUserId) {
+          await automaticLineLookup();
+        }
+      } catch (error) {
+        console.warn("LIFF initialization failed", error);
+      }
+    }
+
+    function updateConnectionStatus() {
+      if (state.returningClient) {
+        $("connectionTitle").textContent = "登録情報を確認しました";
+        $("connectionText").textContent = "以前の基本情報を自動入力しています。変更があれば修正してください。";
+      } else if (state.office) {
+        $("connectionTitle").textContent = "相談受付をご利用いただけます";
+        $("connectionText").textContent = `${state.office.office_name}へ安全に送信します。`;
+      } else {
+        $("connectionTitle").textContent = "相談受付をご利用いただけます";
+        $("connectionText").textContent = "必要事項を入力して送信してください。";
+      }
+    }
+
+    function selectCategory(category) {
+      state.category = category;
+      state.caseType = "";
+      qsa(".service-tab").forEach((button) => {
+        const selected = button.dataset.category === category;
+        button.classList.toggle("selected", selected);
+        button.setAttribute("aria-selected", String(selected));
+      });
+      renderCaseChoices();
+      clearError("caseType");
+    }
+
+    function renderCaseChoices() {
+      const container = $("caseChoices");
+      container.replaceChildren();
+
+      CASE_OPTIONS[state.category].forEach(([value, label, description]) => {
+        const choice = document.createElement("label");
+        choice.className = "choice";
+        choice.dataset.value = value;
+        choice.innerHTML = `
+          <input type="radio" name="caseType" value="${escapeHtml(value)}">
+          <span class="choice-check" aria-hidden="true">✓</span>
+          <span>
+            <span class="choice-title">${escapeHtml(label)}</span>
+            <span class="choice-desc">${escapeHtml(description)}</span>
+          </span>
+        `;
+        choice.addEventListener("click", () => {
+          state.caseType = value;
+          qsa(".choice").forEach((item) => item.classList.toggle("selected", item === choice));
+          choice.querySelector("input").checked = true;
+          clearError("caseType");
+        });
+        container.appendChild(choice);
+      });
+    }
+
+    function showStep(step) {
+      state.step = step;
+      qsa("[data-step]").forEach((panel) => {
+        panel.hidden = Number(panel.dataset.step) !== step;
+      });
+
+      qsa("[data-step-indicator]").forEach((indicator) => {
+        const number = Number(indicator.dataset.stepIndicator);
+        indicator.classList.toggle("active", number === step);
+        indicator.classList.toggle("done", number < step);
+      });
+
+      if (step === 4) renderConfirmation();
+      document.querySelector(".stepper").scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function validateStep(step) {
+      clearVisibleErrors();
+      let valid = true;
+
+      if (step === 1) {
+        if (!state.caseType) {
+          setError("caseType", "相談内容を1つ選んでください。");
+          valid = false;
+        }
+        if (!value("consultationSummary")) {
+          setError("consultationSummary", "現在の状況・お困りごとを入力してください。");
+          valid = false;
+        }
+      }
+
+      if (step === 2) {
+        if (!value("name")) {
+          setError("name", "お名前を入力してください。");
+          valid = false;
+        }
+        const phone = normalizePhone(value("phone"));
+        if (!/^0\d{9,10}$/.test(phone)) {
+          setError("phone", "電話番号を正しく入力してください。");
+          valid = false;
+        }
+        const email = value("email");
+        if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+          setError("email", "メールアドレスを正しく入力してください。");
+          valid = false;
+        }
+      }
+
+      if (step === 3) {
+        for (const [id, message] of [
+          ["prefecture", "都道府県を入力してください。"],
+          ["city", "市区町村を入力してください。"],
+          ["propertyAddress", "相談対象の所在地を入力してください。"]
+        ]) {
+          if (!value(id)) {
+            setError(id, message);
+            valid = false;
+          }
+        }
+
+        const date = value("preferredDate");
+        const time = value("preferredTime");
+        if ((date && !time) || (!date && time)) {
+          setError(date ? "preferredTime" : "preferredDate", "希望日と希望時間を両方選択してください。");
+          valid = false;
+        }
+        if (date && new Date(`${date}T00:00:00+09:00`) < todayJstStart()) {
+          setError("preferredDate", "過去の日付は選択できません。");
+          valid = false;
+        }
+        if (!$("privacyConsent").checked) {
+          setError("privacyConsent", "個人情報の取り扱いへの同意が必要です。");
+          valid = false;
+        }
+      }
+
+      if (!valid) {
+        const first = document.querySelector('[aria-invalid="true"]') ||
+          document.querySelector(".error:not(:empty)");
+        first?.scrollIntoView({ behavior: "smooth", block: "center" });
+        toast("入力内容をご確認ください。", true);
+      }
+
+      return valid;
+    }
+
+    function renderConfirmation() {
+      const rows = [
+        ["相談内容", CASE_LABELS[state.caseType] || state.caseType],
+        ["現在の状況", value("consultationSummary")],
+        ["お名前", value("name")],
+        ["電話番号", value("phone")],
+        ["メール", value("email") || "未入力"],
+        ["ご依頼者区分", selectedText("clientType")],
+        ["希望連絡方法", selectedText("preferredContact")],
+        ["対象所在地", `${value("prefecture")}${value("city")}${value("propertyAddress")}`],
+        ["地番", value("lotNumber") || "不明・未入力"],
+        ["家屋番号", value("houseNumber") || "不明・未入力"],
+        ["登記名義人・所有者", value("ownerName") || "未入力"],
+        ["相談希望日時", preferredDateTimeLabel()],
+        ["日時についての希望", value("appointmentNotes") || "特になし"]
+      ];
+
+      const container = $("confirmationSummary");
+      container.replaceChildren();
+      rows.forEach(([label, content]) => {
+        const row = document.createElement("div");
+        row.className = "summary-row";
+        const labelEl = document.createElement("div");
+        labelEl.className = "summary-label";
+        labelEl.textContent = label;
+        const valueEl = document.createElement("div");
+        valueEl.className = "summary-value";
+        valueEl.textContent = content;
+        row.append(labelEl, valueEl);
+        container.appendChild(row);
+      });
+    }
+
+    async function automaticLineLookup() {
+      try {
+        const data = await api("/api/public/client-lookup", {
+          method: "POST",
+          body: { line_user_id: state.lineUserId }
+        });
+        if (data.found) applyClient(data.client, "LINEの登録情報を確認しました。");
+      } catch (error) {
+        console.warn("automatic lookup failed", error);
+      }
+    }
+
+    async function lookupRegisteredClient() {
+      const name = value("name");
+      const phone = value("phone");
+
+      if (!state.lineUserId && (!name || !phone)) {
+        toast("お名前と電話番号を入力してください。", true);
+        return;
+      }
+
+      showLoading("登録情報を確認しています");
+      try {
+        const data = await api("/api/public/client-lookup", {
+          method: "POST",
+          body: {
+            line_user_id: state.lineUserId || undefined,
+            name: name || undefined,
+            phone: phone || undefined
+          }
+        });
+
+        if (data.found) {
+          applyClient(data.client, "以前の登録情報が見つかりました。");
+        } else {
+          $("lookupResult").hidden = false;
+          $("lookupResult").style.color = "var(--muted)";
+          $("lookupResult").style.background = "var(--surface)";
+          $("lookupResult").textContent = "登録情報は見つかりませんでした。新規相談としてそのまま入力できます。";
+          toast("新規相談として受け付けます。");
+        }
+      } catch (error) {
+        toast(error.message || "登録情報を確認できませんでした。", true);
+      } finally {
+        hideLoading();
+      }
+    }
+
+    function applyClient(client, message) {
+      state.returningClient = true;
+      setValue("name", client.name);
+      setValue("nameKana", client.name_kana);
+      setValue("phone", client.phone);
+      setValue("email", client.email);
+      setValue("clientAddress", client.address);
+      setValue("clientType", client.client_type || "owner");
+      setValue("preferredContact", client.preferred_contact || "line");
+
+      $("lookupResult").hidden = false;
+      $("lookupResult").removeAttribute("style");
+      $("lookupResult").textContent = `${message} 基本情報を自動入力しました。`;
+      updateConnectionStatus();
+    }
+
+    async function submitInquiry(event) {
+      event.preventDefault();
+      if (state.submitted) return;
+      if (!validateStep(1) || !validateStep(2) || !validateStep(3)) {
+        showStep(findFirstInvalidStep());
+        return;
+      }
+
+      const payload = buildPayload();
+      state.submitted = true;
+      $("submitButton").disabled = true;
+      showLoading("ご相談を送信しています");
+
+      try {
+        const data = await api("/api/public/inquiries", {
+          method: "POST",
+          body: payload
+        });
+
+        $("inquiryForm").hidden = true;
+        document.querySelector(".stepper").hidden = true;
+        $("completePanel").hidden = false;
+        $("receiptCaseNo").textContent = data.case?.case_no || "受付済み";
+        $("receiptCaseTitle").textContent = data.case?.title || CASE_LABELS[state.caseType] || "ご相談";
+        $("receiptStatus").textContent = STATUS_LABELS[data.case?.status] || "ご相談受付";
+        $("completePanel").scrollIntoView({ behavior: "smooth", block: "start" });
+        toast("ご相談を受け付けました。");
+      } catch (error) {
+        state.submitted = false;
+        $("submitButton").disabled = false;
+        toast(error.message || "送信できませんでした。時間をおいて再度お試しください。", true);
+      } finally {
+        hideLoading();
+      }
+    }
+
+    function buildPayload() {
+      const date = value("preferredDate");
+      const time = value("preferredTime");
+      const preferredStart = date && time ? `${date}T${time}` : undefined;
+      const preferredEnd = preferredStart
+        ? addMinutesLocal(preferredStart, Number(CONFIG.defaultSlotMinutes || 30))
+        : undefined;
+
+      return {
+        office_code: CONFIG.officeCode,
+        line_user_id: state.lineUserId || undefined,
+        name: value("name"),
+        name_kana: value("nameKana") || undefined,
+        phone: value("phone"),
+        email: value("email") || undefined,
+        postal_code: value("postalCode") || undefined,
+        client_address: value("clientAddress") || undefined,
+        client_type: value("clientType"),
+        preferred_contact: value("preferredContact"),
+        inquiry_source: state.lineUserId ? "line" : "web",
+        case_type: state.caseType,
+        consultation_summary: value("consultationSummary"),
+        client_request: value("consultationSummary"),
+        title: `${value("city")} ${CASE_LABELS[state.caseType] || "不動産相談"}`,
+        property_type: propertyTypeForCase(),
+        prefecture: value("prefecture"),
+        city: value("city"),
+        property_address: value("propertyAddress"),
+        lot_number: value("lotNumber") || undefined,
+        house_number: value("houseNumber") || undefined,
+        registry_address: value("registryAddress") || undefined,
+        owner_name: value("ownerName") || undefined,
+        current_use: value("currentUse") || undefined,
+        preferred_start_at: preferredStart,
+        preferred_end_at: preferredEnd,
+        appointment_location: "相談方法は受付後に確認",
+        appointment_notes: value("appointmentNotes") || undefined
+      };
+    }
+
+    function propertyTypeForCase() {
+      if (state.category === "building") return "building";
+      if (state.category === "land") return "land";
+      return value("houseNumber") ? "land_and_building" : "land";
+    }
+
+    function findFirstInvalidStep() {
+      if (!state.caseType || !value("consultationSummary")) return 1;
+      if (!value("name") || !/^0\d{9,10}$/.test(normalizePhone(value("phone")))) return 2;
+      return 3;
+    }
+
+    function buildTimeOptions() {
+      const select = $("preferredTime");
+      const current = select.value;
+      select.innerHTML = '<option value="">時間を選択してください</option>';
+
+      const selectedDate = value("preferredDate");
+      if (selectedDate && isClosedDate(selectedDate)) {
+        const option = document.createElement("option");
+        option.disabled = true;
+        option.textContent = "休業日のため選択できません";
+        select.appendChild(option);
+        return;
+      }
+
+      const hours = businessHoursForDate(selectedDate);
+      if (!hours.length) {
+        const option = document.createElement("option");
+        option.disabled = true;
+        option.textContent = "受付時間が設定されていません";
+        select.appendChild(option);
+        return;
+      }
+
+      hours.forEach(([start, end]) => {
+        for (let minute = timeToMinutes(start); minute < timeToMinutes(end); minute += 30) {
+          const time = minutesToTime(minute);
+          const option = document.createElement("option");
+          option.value = time;
+          option.textContent = time;
+          select.appendChild(option);
+        }
+      });
+
+      if (Array.from(select.options).some((option) => option.value === current)) {
+        select.value = current;
+      }
+    }
+
+    function businessHoursForDate(dateText) {
+      const fallback = [["09:00", "18:00"]];
+      if (!state.office?.business_hours) return fallback;
+      if (!dateText) return fallback;
+
+      const date = new Date(`${dateText}T12:00:00+09:00`);
+      const keys = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
+      const hours = state.office.business_hours[keys[date.getDay()]];
+      return Array.isArray(hours) ? hours : fallback;
+    }
+
+    function isClosedDate(dateText) {
+      return Array.isArray(state.office?.closed_dates) && state.office.closed_dates.includes(dateText);
+    }
+
+    function setMinimumDate() {
+      $("preferredDate").min = jstDateString();
+    }
+
+    function preferredDateTimeLabel() {
+      const date = value("preferredDate");
+      const time = value("preferredTime");
+      if (!date || !time) return "希望なし（事務所から連絡）";
+      const formatted = new Intl.DateTimeFormat("ja-JP", {
+        timeZone: "Asia/Tokyo",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        weekday: "short"
+      }).format(new Date(`${date}T${time}:00+09:00`));
+      return `${formatted} ${time}`;
+    }
+
+    function fillDemoData() {
+      setValue("consultationSummary", "土地を売却する予定ですが、隣地との境界杭が見つかりません。境界確認と測量について相談したいです。");
+      setValue("name", "山田 太郎");
+      setValue("nameKana", "ヤマダ タロウ");
+      setValue("phone", "090-1111-2222");
+      setValue("email", "yamada@example.com");
+      setValue("postalCode", "811-2202");
+      setValue("clientAddress", "福岡県糟屋郡志免町志免中央2-10-5");
+      setValue("prefecture", "福岡県");
+      setValue("city", "糟屋郡志免町");
+      setValue("propertyAddress", "志免中央2-10-5");
+      setValue("lotNumber", "123番4");
+      setValue("ownerName", "山田 太郎");
+      setValue("currentUse", "宅地");
+      setValue("appointmentNotes", "最初は電話での相談を希望します。");
+      state.caseType = "boundary_marker_restoration";
+      renderCaseChoices();
+      const choice = document.querySelector('.choice[data-value="boundary_marker_restoration"]');
+      choice?.click();
+
+      const future = new Date(todayJstStart().getTime() + 7 * 24 * 60 * 60000);
+      setValue("preferredDate", jstDateString(future));
+      buildTimeOptions();
+      setValue("preferredTime", "10:00");
+      $("privacyConsent").checked = true;
+    }
+
+    function resetForm() {
+      state.submitted = false;
+      state.returningClient = false;
+      state.caseType = "";
+      $("inquiryForm").reset();
+      $("prefecture").value = "福岡県";
+      $("completePanel").hidden = true;
+      $("inquiryForm").hidden = false;
+      document.querySelector(".stepper").hidden = false;
+      selectCategory("land");
+      setMinimumDate();
+      buildTimeOptions();
+      showStep(1);
+      $("submitButton").disabled = false;
+    }
+
+    function closeWindow() {
+      if (window.liff?.isInClient?.()) {
+        liff.closeWindow();
+      } else {
+        toast("このタブを閉じてLINEへお戻りください。");
+      }
+    }
+
+    async function api(path, options = {}) {
+      const response = await fetch(`${CONFIG.apiBase}${path}`, {
+        method: options.method || "GET",
+        headers: { "Content-Type": "application/json" },
+        body: options.body ? JSON.stringify({
+          office_code: CONFIG.officeCode,
+          ...options.body
+        }) : undefined
+      });
+
+      let data;
+      try {
+        data = await response.json();
+      } catch {
+        throw new Error("サーバーから正しい応答を受信できませんでした。");
+      }
+
+      if (!response.ok || !data.ok) {
+        const error = new Error(data.error || "処理に失敗しました。");
+        error.code = data.code;
+        error.details = data.details;
+        throw error;
+      }
+      return data;
+    }
+
+    function setError(id, message) {
+      const error = $(`${id}Error`);
+      if (error) error.textContent = message;
+      const field = $(id);
+      if (field && ["INPUT", "SELECT", "TEXTAREA"].includes(field.tagName)) {
+        field.setAttribute("aria-invalid", "true");
+      }
+    }
+
+    function clearError(id) {
+      const error = $(`${id}Error`);
+      if (error) error.textContent = "";
+      $(id)?.removeAttribute("aria-invalid");
+    }
+
+    function clearFieldError(id) {
+      clearError(id);
+    }
+
+    function clearVisibleErrors() {
+      qsa(".error").forEach((element) => {
+        if (!element.closest("[hidden]")) element.textContent = "";
+      });
+      qsa('[aria-invalid="true"]').forEach((element) => element.removeAttribute("aria-invalid"));
+    }
+
+    function value(id) {
+      return ($(id)?.value || "").trim();
+    }
+
+    function setValue(id, valueToSet) {
+      if ($(id) && valueToSet !== undefined && valueToSet !== null) $(id).value = valueToSet;
+    }
+
+    function selectedText(id) {
+      const select = $(id);
+      return select.options[select.selectedIndex]?.textContent || "";
+    }
+
+    function normalizePhone(raw) {
+      let phone = String(raw || "").normalize("NFKC").replace(/[ー－―‐−]/g, "-");
+      phone = phone.replace(/[^0-9+]/g, "");
+      if (phone.startsWith("+81")) phone = `0${phone.slice(3)}`;
+      else if (phone.startsWith("0081")) phone = `0${phone.slice(4)}`;
+      else if (phone.startsWith("81") && phone.length >= 11 && phone.length <= 12) phone = `0${phone.slice(2)}`;
+      return phone.replace(/\D/g, "");
+    }
+
+    function addMinutesLocal(dateTime, minutes) {
+      const date = new Date(`${dateTime}:00+09:00`);
+      date.setMinutes(date.getMinutes() + minutes);
+      const parts = new Intl.DateTimeFormat("en-CA", {
+        timeZone: "Asia/Tokyo",
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        hourCycle: "h23"
+      }).formatToParts(date);
+      const p = Object.fromEntries(parts.filter((item) => item.type !== "literal").map((item) => [item.type, item.value]));
+      return `${p.year}-${p.month}-${p.day}T${p.hour}:${p.minute}`;
+    }
+
+    function timeToMinutes(time) {
+      const [hour, minute] = time.split(":").map(Number);
+      return hour * 60 + minute;
+    }
+
+    function minutesToTime(minutes) {
+      return `${String(Math.floor(minutes / 60)).padStart(2, "0")}:${String(minutes % 60).padStart(2, "0")}`;
+    }
+
+    function todayJstStart() {
+      return new Date(`${jstDateString()}T00:00:00+09:00`);
+    }
+
+    function jstDateString(date = new Date()) {
+      const parts = new Intl.DateTimeFormat("en-CA", {
+        timeZone: "Asia/Tokyo",
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit"
+      }).formatToParts(date);
+      const p = Object.fromEntries(parts.filter((item) => item.type !== "literal").map((item) => [item.type, item.value]));
+      return `${p.year}-${p.month}-${p.day}`;
+    }
+
+    function showLoading(message) {
+      $("loadingText").textContent = message;
+      $("loading").hidden = false;
+    }
+
+    function hideLoading() {
+      $("loading").hidden = true;
+    }
+
+    let toastTimer;
+    function toast(message, isError = false) {
+      clearTimeout(toastTimer);
+      const element = $("toast");
+      element.textContent = message;
+      element.classList.toggle("error-toast", isError);
+      element.classList.add("show");
+      toastTimer = setTimeout(() => element.classList.remove("show"), 3500);
+    }
+
+    function escapeHtml(value) {
+      return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+  </script>
+</body>
+</html>
