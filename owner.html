@@ -6,6 +6,7 @@
   <meta name="theme-color" content="#0f2336">
   <meta name="format-detection" content="telephone=no">
   <title>DPRO 土地家屋調査士 LINE｜オーナーPC管理</title>
+  <!-- CHOSASHI-6-R1 DOCUMENT ACTION BUTTON OPTIMIZE 20260717 -->
   <script src="config.js"></script>
   <style>
     :root{
@@ -534,10 +535,19 @@
     function documentReviewCard(d,compact=false){
       const card=document.createElement("article");card.className="review-card";
       const caseText=d.case?`${d.case.case_no}／${d.case.title}`:"";
-      card.innerHTML=`<div class="list-top"><div><div class="list-title">${esc(d.title||d.original_filename||"資料")}</div><div class="list-sub">${esc(d.original_filename||"")}／${formatBytes(d.file_size)}／${esc(d.client?.name||"")}${caseText?`／${esc(caseText)}`:""}／${esc(formatDateTime(d.created_at))}</div></div><span class="status ${docClass(d.review_status)}">${esc(DOC_STATUS[d.review_status]||d.review_status)}</span></div><div class="review-actions"><button class="btn btn-secondary btn-small doc-open">資料を開く</button><button class="btn btn-primary btn-small doc-accept">確認済みにする</button><button class="btn btn-danger btn-small doc-reject">差戻し</button></div>`;
-      card.querySelector(".doc-open").addEventListener("click",()=>openAdminDocument(d.id));
-      card.querySelector(".doc-accept").addEventListener("click",()=>reviewDocument(d.id,"accepted"));
-      card.querySelector(".doc-reject").addEventListener("click",()=>reviewDocument(d.id,"rejected"));
+      const actions=[
+        '<button class="btn btn-secondary btn-small doc-open">資料を開く</button>',
+        d.review_status!=="accepted"
+          ? '<button class="btn btn-primary btn-small doc-accept">確認済みにする</button>'
+          : "",
+        d.review_status!=="rejected"
+          ? '<button class="btn btn-danger btn-small doc-reject">差戻し</button>'
+          : ""
+      ].filter(Boolean).join("");
+      card.innerHTML=`<div class="list-top"><div><div class="list-title">${esc(d.title||d.original_filename||"資料")}</div><div class="list-sub">${esc(d.original_filename||"")}／${formatBytes(d.file_size)}／${esc(d.client?.name||"")}${caseText?`／${esc(caseText)}`:""}／${esc(formatDateTime(d.created_at))}</div></div><span class="status ${docClass(d.review_status)}">${esc(DOC_STATUS[d.review_status]||d.review_status)}</span></div><div class="review-actions">${actions}</div>`;
+      card.querySelector(".doc-open")?.addEventListener("click",()=>openAdminDocument(d.id));
+      card.querySelector(".doc-accept")?.addEventListener("click",()=>reviewDocument(d.id,"accepted"));
+      card.querySelector(".doc-reject")?.addEventListener("click",()=>reviewDocument(d.id,"rejected"));
       return card;
     }
     async function openAdminDocument(id){
