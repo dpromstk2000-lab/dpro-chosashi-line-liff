@@ -1,6 +1,6 @@
 window.DPRO_CONFIG = Object.freeze({
   systemName: "DPRO 土地家屋調査士 LINE",
-  version: "CHOSASHI-5-MEMBER-DOCUMENTS-20260717",
+  version: "CHOSASHI-6-OWNER-PC-20260717",
   officeCode: "dpro_chosashi_demo",
   apiBase: "https://dpro-chosashi-line-api.dpromstk2000.workers.dev",
   liffId: "",
