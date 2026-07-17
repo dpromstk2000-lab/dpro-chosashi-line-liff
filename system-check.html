@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0f2336">
+  <meta name="format-detection" content="telephone=no">
+  <title>DPRO 土地家屋調査士 LINE｜営業前system-check</title>
+  <script src="config.js?v=chosashi-8-final-20260717"></script>
+  <style>
+    :root{
+      --navy-950:#0f2336;--navy-900:#17324d;--navy-800:#244660;
+      --teal-750:#0f6f70;--teal-700:#147d7e;--teal-600:#199395;--teal-100:#dff2f0;
+      --sand-100:#f7f1e4;--paper:#fff;--surface:#f2f6f7;--line:#d3dee3;
+      --line-dark:#b7c7ce;--text:#1d2b35;--muted:#5b6b76;
+      --success:#17643b;--success-bg:#e6f5ec;--warning:#8a5800;--warning-bg:#fff4d7;
+      --danger:#a3272e;--danger-bg:#fdebed;--info:#185a89;--info-bg:#e7f2fa;
+      --shadow:0 13px 34px rgba(15,35,54,.12);
+      --font:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans JP","Yu Gothic UI","Hiragino Kaku Gothic ProN",sans-serif;
+    }
+    *{box-sizing:border-box}html{scroll-behavior:smooth}
+    body{
+      margin:0;min-width:320px;color:var(--text);font-family:var(--font);font-size:18px;line-height:1.65;
+      background:radial-gradient(circle at 100% 0,rgba(20,125,126,.14),transparent 28rem),linear-gradient(180deg,#edf3f5 0,#f8f5ee 27rem,#f3f6f7 100%);
+      -webkit-font-smoothing:antialiased
+    }
+    button,input{font:inherit}button{cursor:pointer}[hidden]{display:none!important}a{color:inherit}
+    .top-note{padding:max(10px,env(safe-area-inset-top)) 15px 10px;color:#fff;background:var(--navy-950);text-align:center;font-size:14px;font-weight:700}
+    .hero{color:#fff;background:linear-gradient(135deg,var(--navy-950),var(--navy-900) 58%,var(--teal-700))}
+    .hero-inner{width:min(1320px,calc(100% - 26px));margin:auto;padding:25px 0 39px}
+    .brand{display:flex;align-items:center;gap:12px}.mark{display:grid;place-items:center;width:52px;height:52px;border-radius:15px;color:var(--navy-950);background:var(--sand-100);font-size:23px;font-weight:900}
+    .brand strong{display:block;font-size:21px}.brand small{display:block;color:rgba(255,255,255,.72);font-size:13px}
+    .hero-row{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;margin-top:23px}
+    h1{margin:0;font-size:clamp(30px,5vw,44px);line-height:1.3}.hero p{margin:7px 0 0;color:rgba(255,255,255,.84);font-size:16px}
+    .version-chip{padding:10px 14px;border:1px solid rgba(255,255,255,.25);border-radius:14px;background:rgba(255,255,255,.08);font-size:13px;font-weight:850}
+    .main{width:min(1320px,calc(100% - 22px));margin:-18px auto 75px;position:relative;z-index:2}
+    .control{
+      display:grid;grid-template-columns:minmax(220px,1fr) auto auto auto;gap:10px;align-items:end;padding:17px;border:1px solid var(--line);border-radius:19px;background:rgba(255,255,255,.98);box-shadow:var(--shadow)
+    }
+    label{display:block;margin-bottom:6px;color:var(--navy-950);font-size:14px;font-weight:850}
+    input{width:100%;min-height:51px;padding:10px 13px;border:2px solid #c4d0d6;border-radius:12px;color:var(--text);background:#fff;font-size:17px;outline:none}
+    input:focus{border-color:var(--teal-700);box-shadow:0 0 0 4px rgba(20,125,126,.13)}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:51px;padding:11px 17px;border:0;border-radius:13px;font-size:16px;font-weight:850;text-decoration:none;transition:.15s}
+    .btn:hover{transform:translateY(-1px)}.btn:disabled{opacity:.55;cursor:not-allowed;transform:none}
+    .primary{color:#fff;background:linear-gradient(135deg,var(--teal-700),var(--teal-600));box-shadow:0 8px 18px rgba(20,125,126,.23)}
+    .navy{color:#fff;background:var(--navy-900)}.secondary{color:var(--navy-900);border:2px solid var(--line-dark);background:#fff}.danger{color:var(--danger);border:2px solid #e4b6bb;background:#fff}
+    .metric-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin-top:16px}
+    .metric{padding:16px;border:1px solid var(--line);border-radius:17px;background:#fff;box-shadow:0 7px 18px rgba(15,35,54,.06)}
+    .metric b{display:block;color:var(--navy-950);font-size:29px;line-height:1.2}.metric span{display:block;margin-top:6px;color:var(--muted);font-size:13px;font-weight:700}
+    .metric.ready{border-color:#9fd2b2;background:#f3fbf6}.metric.bad{border-color:#e1afb3;background:#fff7f7}.metric.warn{border-color:#e7cb89;background:#fffaf0}
+    .grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(350px,.75fr);gap:16px;margin-top:16px;align-items:start}
+    .panel{padding:20px;border:1px solid var(--line);border-radius:20px;background:#fff;box-shadow:var(--shadow)}.panel+.panel{margin-top:16px}
+    .panel-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;margin-bottom:14px}
+    .panel-head h2,.panel-head h3{margin:0;color:var(--navy-950);line-height:1.4}.panel-head h2{font-size:25px}.panel-head h3{font-size:20px}.panel-head p{margin:4px 0 0;color:var(--muted);font-size:14px}
+    .status{display:inline-flex;padding:6px 10px;border-radius:999px;font-size:12px;font-weight:900;white-space:nowrap}.ok{color:var(--success);background:var(--success-bg)}.ng{color:var(--danger);background:var(--danger-bg)}.warning{color:var(--warning);background:var(--warning-bg)}.info{color:var(--info);background:var(--info-bg)}
+    .check-list{display:grid;gap:10px}.check-card{padding:14px;border:1px solid var(--line);border-radius:14px;background:#fff}.check-card.failed{border-color:#e2b0b4;background:#fffafa}.check-card.warning-card{border-color:#e6cd91;background:#fffdf7}
+    .check-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}.check-name{color:var(--navy-950);font-weight:900}.check-meta{margin-top:3px;color:var(--muted);font-size:12px}
+    details{margin-top:8px}summary{color:var(--teal-750);font-size:13px;font-weight:850;cursor:pointer}pre{max-height:280px;overflow:auto;margin:8px 0 0;padding:12px;border-radius:11px;color:#dbeaf1;background:var(--navy-950);font:12px/1.55 ui-monospace,SFMono-Regular,Consolas,monospace;white-space:pre-wrap;overflow-wrap:anywhere}
+    .screen-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+    .screen-card{padding:14px;border:1px solid var(--line);border-radius:14px;background:var(--surface)}.screen-card strong{display:block;color:var(--navy-950)}.screen-card span{display:block;margin-top:3px;color:var(--muted);font-size:12px}.screen-actions{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}.screen-actions .btn{min-height:39px;padding:7px 11px;font-size:13px}
+    .empty{padding:24px;border:1px dashed #a8bac3;border-radius:15px;color:var(--muted);background:var(--surface);text-align:center;font-size:14px}
+    .notice{margin-top:14px;padding:13px 15px;border-left:5px solid var(--teal-700);border-radius:8px 13px 13px 8px;color:var(--navy-900);background:var(--teal-100);font-size:14px}.notice.warn{border-left-color:#b87600;color:#694500;background:var(--warning-bg)}
+    .loading{position:fixed;inset:0;z-index:300;display:grid;place-items:center;background:rgba(15,35,54,.68);backdrop-filter:blur(4px)}.loading-card{width:min(360px,calc(100% - 30px));padding:25px;border-radius:20px;background:#fff;text-align:center}.spinner{width:44px;height:44px;margin:0 auto 12px;border:5px solid #d8e8e7;border-top-color:var(--teal-700);border-radius:50%;animation:spin .85s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
+    .toast{position:fixed;z-index:400;left:50%;bottom:max(18px,env(safe-area-inset-bottom));width:min(620px,calc(100% - 28px));transform:translate(-50%,30px);padding:14px 17px;border-radius:13px;color:#fff;background:var(--navy-950);box-shadow:0 15px 40px rgba(0,0,0,.28);opacity:0;pointer-events:none;transition:.25s;text-align:center;font-size:15px;font-weight:800}.toast.show{transform:translate(-50%,0);opacity:1}.toast.error{background:var(--danger)}
+    .login{position:fixed;inset:0;z-index:500;display:grid;place-items:center;padding:20px;background:linear-gradient(135deg,var(--navy-950),var(--navy-900) 58%,var(--teal-700))}.login-card{width:min(530px,100%);padding:29px;border-radius:23px;background:#fff;box-shadow:0 22px 65px rgba(0,0,0,.28)}.login-brand{display:flex;align-items:center;gap:12px;margin-bottom:19px}.login-brand strong{color:var(--navy-950);font-size:20px}.login-card h2{margin:0;color:var(--navy-950);font-size:28px}.login-card p{margin:7px 0 0;color:var(--muted);font-size:14px}.code-row{display:grid;grid-template-columns:1fr auto;gap:8px;margin-top:18px}.error{min-height:1.4em;margin:6px 0 0;color:var(--danger);font-size:13px;font-weight:800}
+    .footer{padding:27px 16px calc(27px + env(safe-area-inset-bottom));color:#d7e1e7;background:var(--navy-950);text-align:center;font-size:13px}.demo{position:fixed;right:11px;bottom:max(11px,env(safe-area-inset-bottom));z-index:40;padding:7px 10px;border-radius:999px;color:#fff;background:#9a6400;font-size:12px;font-weight:850}
+    @media(max-width:980px){.metric-grid{grid-template-columns:repeat(3,1fr)}.grid{grid-template-columns:1fr}}
+    @media(max-width:700px){body{font-size:17px}.hero-row,.panel-head,.check-top{flex-direction:column}.control{grid-template-columns:1fr 1fr}.metric-grid{grid-template-columns:1fr 1fr}.screen-grid{grid-template-columns:1fr}}
+    @media(max-width:460px){.control{grid-template-columns:1fr}.metric-grid{grid-template-columns:1fr}.code-row{grid-template-columns:1fr}}
+    @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+  </style>
+</head>
+<body>
+  <div class="top-note">営業前に、API・DB・非公開Storage・各画面・デモデータを一括検査します</div>
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="brand"><div class="mark">境</div><div><strong id="officeName">DPRO土地家屋調査士事務所</strong><small>FINAL RELEASE CHECK</small></div></div>
+      <div class="hero-row"><div><h1>営業前 system-check</h1><p>異常がある場合は、営業デモへ進む前に原因と対象箇所を表示します。</p></div><div class="version-chip" id="versionChip">CHOSASHI-8</div></div>
+    </div>
+  </header>
+
+  <main class="main">
+    <section class="control">
+      <div><label for="adminCode">管理コード</label><input id="adminCode" type="password" inputmode="numeric" autocomplete="current-password" placeholder="管理コード"></div>
+      <button class="btn primary" id="runButton" type="button">一括チェック</button>
+      <button class="btn navy" id="demoButton" type="button">デモデータ準備</button>
+      <button class="btn danger" id="clearButton" type="button">管理コード削除</button>
+    </section>
+
+    <section class="metric-grid">
+      <div class="metric" id="readyMetric"><b id="releaseStatus">未実行</b><span>営業デモ判定</span></div>
+      <div class="metric"><b id="totalCount">0</b><span>検査項目</span></div>
+      <div class="metric ready"><b id="passCount">0</b><span>正常</span></div>
+      <div class="metric bad"><b id="failCount">0</b><span>異常</span></div>
+      <div class="metric warn"><b id="warningCount">0</b><span>警告</span></div>
+    </section>
+
+    <div class="grid">
+      <section class="panel">
+        <div class="panel-head"><div><h2>自動検査結果</h2><p>Worker、Supabase、業務ガード、主要API、公開ファイルを確認します。</p></div><span class="status info" id="checkedAt">未実行</span></div>
+        <div class="check-list" id="checkList"><div class="empty">「一括チェック」を押してください。</div></div>
+      </section>
+
+      <div>
+        <section class="panel">
+          <div class="panel-head"><div><h3>全画面確認</h3><p>通常画面とデモ画面を直接開けます。</p></div></div>
+          <div class="screen-grid" id="screenGrid"></div>
+        </section>
+        <section class="panel">
+          <div class="panel-head"><div><h3>デモデータ準備</h3><p>デモ事務所だけで、標準案件・予定・タスクを再生成します。</p></div></div>
+          <div class="notice warn">本番事務所ではproduction_guardにより実行できません。デモ準備後は自動でsystem-checkを再実行します。</div>
+          <div id="demoResult" style="margin-top:12px"></div>
+        </section>
+      </div>
+    </div>
+
+    <div class="notice">合格条件：重大エラー0件、Workerバージョン一致、30分枠・重複予定正常、電話番号正規化一致、非公開Storage、主要画面ファイルHTTP 200。</div>
+  </main>
+
+  <footer class="footer"><strong id="footerOffice">DPRO土地家屋調査士事務所</strong><br>営業前の最終確認結果は画面上でのみ表示し、管理コードは端末へ永続保存しません。</footer>
+
+  <div class="login" id="loginScreen">
+    <section class="login-card">
+      <div class="login-brand"><div class="mark">境</div><strong>DPRO 土地家屋調査士 LINE</strong></div>
+      <h2>system-checkを開く</h2><p>管理コードを入力して、営業前の全機能検査を開始します。</p>
+      <div class="code-row"><input id="loginCode" type="password" inputmode="numeric" autocomplete="current-password" placeholder="管理コード"><button class="btn danger" id="loginClear" type="button">削除</button></div>
+      <p class="error" id="loginError"></p><div style="display:flex;justify-content:flex-end;margin-top:15px"><button class="btn primary" id="loginButton" type="button">検査画面を開く</button></div>
+    </section>
+  </div>
+
+  <div class="loading" id="loading" hidden><div class="loading-card"><div class="spinner"></div><strong id="loadingText">検査しています</strong></div></div>
+  <div class="toast" id="toast"></div><div class="demo" id="demoBadge" hidden>デモ画面</div>
+
+  <script>
+    "use strict";
+    const CONFIG=window.DPRO_CONFIG||{},$=id=>document.getElementById(id);
+    const params=new URLSearchParams(location.search);
+    const state={adminCode:"",demo:params.get("demo")==="1",lastResult:null};
+
+    const STATIC_CHECKS=[
+      {name:"screen:customer",file:"index.html",label:"お客様相談受付",marker:"相談"},
+      {name:"screen:member",file:"member.html",label:"お客様マイページ",marker:"お客様マイページ"},
+      {name:"screen:upload",file:"upload.html",label:"資料提出",marker:"資料提出"},
+      {name:"screen:owner",file:"owner.html",label:"オーナーPC管理",marker:"オーナーPC管理"},
+      {name:"screen:staff",file:"staff.html",label:"現場スタッフ",marker:'data-mode="staff"'},
+      {name:"screen:ipad",file:"owner-ipad.html",label:"現場共有iPad",marker:'data-mode="ipad"'},
+      {name:"screen:system",file:"system-check.html",label:"営業前system-check",marker:"営業前 system-check"},
+      {name:"screen:config",file:"config.js",label:"共通設定",marker:"CHOSASHI-8-SYSTEM-CHECK-FINAL-20260717"}
+    ];
+
+    document.addEventListener("DOMContentLoaded",init);
+
+    function init(){
+      bind();renderScreens();
+      state.adminCode=state.demo?"1234":(sessionStorage.getItem("chosashiSystemAdminCode")||"");
+      $("loginCode").value=state.adminCode;$("adminCode").value=state.adminCode;
+      if(state.demo)$("demoBadge").hidden=false;
+      if(state.adminCode)openSystem();
+    }
+
+    function bind(){
+      $("loginButton").addEventListener("click",openSystem);
+      $("loginCode").addEventListener("keydown",e=>{if(e.key==="Enter")openSystem()});
+      $("loginClear").addEventListener("click",clearCode);
+      $("clearButton").addEventListener("click",clearCode);
+      $("runButton").addEventListener("click",runAll);
+      $("demoButton").addEventListener("click",prepareDemo);
+      $("adminCode").addEventListener("input",()=>{state.adminCode=$("adminCode").value.trim();$("loginCode").value=state.adminCode});
+    }
+
+    async function openSystem(){
+      state.adminCode=$("loginCode").value.trim()||$("adminCode").value.trim();
+      if(!state.adminCode){$("loginError").textContent="管理コードを入力してください。";return}
+      $("adminCode").value=state.adminCode;$("loginCode").value=state.adminCode;
+      showLoading("管理コードを確認しています");
+      try{
+        const office=await publicApi("/api/public/config");
+        await api("/api/admin/dashboard");
+        sessionStorage.setItem("chosashiSystemAdminCode",state.adminCode);
+        $("loginScreen").hidden=true;$("loginError").textContent="";
+        $("officeName").textContent=office.office.office_name;$("footerOffice").textContent=office.office.office_name;
+        $("versionChip").textContent=CONFIG.releaseVersion||CONFIG.version||"CHOSASHI-8";
+        await runAll();
+      }catch(error){$("loginError").textContent=error.message||"管理コードを確認できませんでした。";toast($("loginError").textContent,true)}
+      finally{hideLoading()}
+    }
+
+    function clearCode(){
+      state.adminCode="";sessionStorage.removeItem("chosashiSystemAdminCode");
+      $("loginCode").value="";$("adminCode").value="";$("loginScreen").hidden=false;
+      toast("管理コードを削除しました。");
+    }
+
+    async function runAll(){
+      if(!state.adminCode){$("loginScreen").hidden=false;return}
+      showLoading("API・DB・画面を一括検査しています");
+      $("runButton").disabled=true;
+      try{
+        const [workerResult,staticResults,functionalResults]=await Promise.all([
+          api("/api/admin/system-check"),
+          runStaticChecks(),
+          runFunctionalChecks()
+        ]);
+        const workerChecks=workerResult.system_check?.checks||[];
+        const allChecks=[...workerChecks,...functionalResults,...staticResults];
+        const criticalFailures=allChecks.filter(x=>!x.ok&&x.severity!=="warning");
+        const warnings=allChecks.filter(x=>x.severity==="warning"||x.warning);
+        const summary={
+          total:allChecks.length,
+          passed:allChecks.filter(x=>x.ok).length,
+          failed:allChecks.filter(x=>!x.ok).length,
+          critical_failures:criticalFailures.length,
+          warnings:warnings.length
+        };
+        state.lastResult={worker:workerResult.system_check,checks:allChecks,summary,release_ready:criticalFailures.length===0};
+        renderResult();
+      }catch(error){
+        state.lastResult={checks:[{name:"system-check",ok:false,severity:"critical",error:error.message}],summary:{total:1,passed:0,failed:1,critical_failures:1,warnings:0},release_ready:false};
+        renderResult();toast(error.message||"一括チェックを実行できませんでした。",true);
+      }finally{$("runButton").disabled=false;hideLoading()}
+    }
+
+    async function runFunctionalChecks(){
+      const checks=[];
+      await smoke(checks,"api:health",async()=>{const d=await publicApi("/");if(d.version!==CONFIG.releaseVersion)throw new Error(`Worker version ${d.version}`);return{version:d.version,features:d.features}});
+      await smoke(checks,"api:public_config",async()=>{const d=await publicApi("/api/public/config");if(Number(d.office.default_slot_minutes)!==30)throw new Error("予約枠が30分ではありません。");return{office_code:d.office.office_code,staff:d.staff.length,slot:d.office.default_slot_minutes}});
+      await smoke(checks,"api:owner_dashboard",async()=>{const d=await api("/api/admin/dashboard");return{counts:d.counts,active_cases:d.active_cases.length}});
+      await smoke(checks,"api:staff",async()=>{const d=await api("/api/admin/staff");if(!d.staff.length)throw new Error("スタッフ0件");return{count:d.staff.length}});
+      await smoke(checks,"api:cases",async()=>{const d=await api("/api/admin/cases",{query:{status:"open",limit:10}});return{count:d.cases.length}});
+      await smoke(checks,"api:documents",async()=>{const d=await api("/api/admin/documents",{query:{review_status:"all",limit:10}});return{count:d.documents.length}});
+      await smoke(checks,"api:member",async()=>{const d=await publicApi("/api/member/summary",{query:{line_user_id:CONFIG.demoLineUserId}});return{client_no:d.member.client_no,cases:d.cases.length}});
+      await smoke(checks,"api:field_today",async()=>{const d=await api("/api/staff/today",{query:{date:jstDate()}});return{appointments:d.appointments.length,upcoming:d.upcoming_appointments.length,tasks:d.tasks.length}});
+      return checks;
+    }
+
+    async function smoke(list,name,fn){
+      const started=performance.now();
+      try{const detail=await fn();list.push({name,ok:true,severity:"critical",elapsed_ms:Math.round(performance.now()-started),detail})}
+      catch(error){list.push({name,ok:false,severity:"critical",elapsed_ms:Math.round(performance.now()-started),error:error.message||String(error)})}
+    }
+
+    async function runStaticChecks(){
+      return Promise.all(STATIC_CHECKS.map(async item=>{
+        const started=performance.now();
+        try{
+          const url=new URL(item.file,location.href);url.searchParams.set("_check",Date.now());
+          const response=await fetch(url,{cache:"no-store"});
+          const text=await response.text();
+          if(!response.ok)throw new Error(`HTTP ${response.status}`);
+          if(!text.includes(item.marker))throw new Error(`画面識別文字がありません: ${item.marker}`);
+          return{name:item.name,ok:true,severity:"critical",elapsed_ms:Math.round(performance.now()-started),detail:{file:item.file,http_status:response.status,bytes:new Blob([text]).size}};
+        }catch(error){return{name:item.name,ok:false,severity:"critical",elapsed_ms:Math.round(performance.now()-started),error:error.message||String(error),details:{file:item.file}}}
+      }));
+    }
+
+    function renderResult(){
+      const result=state.lastResult,summary=result.summary;
+      $("releaseStatus").textContent=result.release_ready?"合格":"要確認";
+      $("readyMetric").className=`metric ${result.release_ready?"ready":"bad"}`;
+      $("totalCount").textContent=summary.total;$("passCount").textContent=summary.passed;$("failCount").textContent=summary.failed;$("warningCount").textContent=summary.warnings;
+      $("checkedAt").textContent=new Intl.DateTimeFormat("ja-JP",{dateStyle:"medium",timeStyle:"medium"}).format(new Date());
+      const list=$("checkList");list.replaceChildren();
+      result.checks.forEach(check=>{
+        const card=document.createElement("article");
+        const warning=check.severity==="warning";
+        card.className=`check-card ${!check.ok?"failed":warning?"warning-card":""}`;
+        card.innerHTML=`<div class="check-top"><div><div class="check-name">${esc(check.name)}</div><div class="check-meta">${esc(check.severity||"critical")}／${Number(check.elapsed_ms||0)}ms${check.error?`／${esc(check.error)}`:""}</div></div><span class="status ${check.ok?(warning?"warning":"ok"):"ng"}">${check.ok?(warning?"警告":"OK"):"NG"}</span></div>${check.detail||check.details?`<details><summary>詳細を見る</summary><pre>${esc(JSON.stringify(check.detail||check.details,null,2))}</pre></details>`:""}`;
+        list.appendChild(card);
+      });
+      if(result.release_ready)toast("営業前system-checkは合格です。");else toast("確認が必要な項目があります。",true);
+    }
+
+    function renderScreens(){
+      const grid=$("screenGrid");grid.replaceChildren();
+      STATIC_CHECKS.filter(x=>x.file.endsWith(".html")).forEach(item=>{
+        const card=document.createElement("article");card.className="screen-card";
+        const normal=new URL(item.file,location.href),demo=new URL(item.file,location.href);demo.searchParams.set("demo","1");demo.searchParams.set("v","chosashi-8-final-20260717");
+        card.innerHTML=`<strong>${esc(item.label)}</strong><span>${esc(item.file)}</span><div class="screen-actions"><a class="btn secondary" href="${esc(normal.href)}" target="_blank" rel="noopener">通常</a><a class="btn primary" href="${esc(demo.href)}" target="_blank" rel="noopener">デモ</a></div>`;
+        grid.appendChild(card);
+      });
+    }
+
+    async function prepareDemo(){
+      if(!confirm("デモ事務所の標準案件・予定・タスクを再生成します。よろしいですか？"))return;
+      showLoading("デモデータを準備しています");$("demoButton").disabled=true;
+      try{
+        const d=await api("/api/admin/demo-prepare",{method:"POST",body:{}});
+        $("demoResult").innerHTML=`<div class="check-card"><div class="check-top"><div><div class="check-name">デモデータ準備完了</div><div class="check-meta">${esc(JSON.stringify(d.counts))}</div></div><span class="status ok">OK</span></div></div>`;
+        toast("デモデータを準備しました。");await runAll();
+      }catch(error){$("demoResult").innerHTML=`<div class="check-card failed"><div class="check-top"><div><div class="check-name">デモデータ準備</div><div class="check-meta">${esc(error.message)}</div></div><span class="status ng">NG</span></div></div>`;toast(error.message||"デモ準備に失敗しました。",true)}
+      finally{$("demoButton").disabled=false;hideLoading()}
+    }
+
+    async function publicApi(path,opt={}){
+      const url=new URL(`${CONFIG.apiBase}${path}`);
+      url.searchParams.set("office_code",CONFIG.officeCode);
+      Object.entries(opt.query||{}).forEach(([k,v])=>{if(v!==undefined&&v!==null&&v!=="")url.searchParams.set(k,v)});
+      const response=await fetch(url,{cache:"no-store"});const data=await response.json().catch(()=>null);
+      if(!response.ok||!data?.ok)throw new Error(data?.error||"公開APIに接続できません。");return data;
+    }
+
+    async function api(path,opt={}){
+      const url=new URL(`${CONFIG.apiBase}${path}`);url.searchParams.set("office_code",CONFIG.officeCode);
+      Object.entries(opt.query||{}).forEach(([k,v])=>{if(v!==undefined&&v!==null&&v!=="")url.searchParams.set(k,v)});
+      const response=await fetch(url,{method:opt.method||"GET",headers:{"Content-Type":"application/json","X-Admin-Key":state.adminCode},body:opt.body?JSON.stringify({office_code:CONFIG.officeCode,...opt.body}):undefined,cache:"no-store"});
+      const data=await response.json().catch(()=>null);if(!response.ok||!data?.ok)throw new Error(data?.error||"管理APIに接続できません。");return data;
+    }
+
+    function jstDate(){const p=Object.fromEntries(new Intl.DateTimeFormat("en-CA",{timeZone:"Asia/Tokyo",year:"numeric",month:"2-digit",day:"2-digit"}).formatToParts(new Date()).filter(x=>x.type!=="literal").map(x=>[x.type,x.value]));return`${p.year}-${p.month}-${p.day}`}
+    function esc(v){return String(v??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
+    function showLoading(t){$("loadingText").textContent=t;$("loading").hidden=false}function hideLoading(){$("loading").hidden=true}
+    let timer;function toast(m,e=false){clearTimeout(timer);const x=$("toast");x.textContent=m;x.classList.toggle("error",e);x.classList.add("show");timer=setTimeout(()=>x.classList.remove("show"),3500)}
+  </script>
+</body>
+</html>
