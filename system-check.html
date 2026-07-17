@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#0f2336">
   <meta name="format-detection" content="telephone=no">
   <title>DPRO 土地家屋調査士 LINE｜営業前system-check</title>
-  <script src="config.js?v=chosashi-8-r1-check-fix-20260717"></script>
+  <script src="config.js?v=chosashi-8-r2-demo-fix-20260717"></script>
   <style>
     :root{
       --navy-950:#0f2336;--navy-900:#17324d;--navy-800:#244660;
@@ -74,14 +74,14 @@
     @media(max-width:460px){.control{grid-template-columns:1fr}.metric-grid{grid-template-columns:1fr}.code-row{grid-template-columns:1fr}}
     @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
   </style>
-  <meta name="dpro-build" content="chosashi-8-r1-check-fix-20260717">
+  <meta name="dpro-build" content="chosashi-8-r2-demo-fix-20260717">
 </head>
 <body>
   <div class="top-note">営業前に、API・DB・非公開Storage・各画面・デモデータを一括検査します</div>
   <header class="hero">
     <div class="hero-inner">
       <div class="brand"><div class="mark">境</div><div><strong id="officeName">DPRO土地家屋調査士事務所</strong><small>FINAL RELEASE CHECK</small></div></div>
-      <div class="hero-row"><div><h1>営業前 system-check</h1><p>異常がある場合は、営業デモへ進む前に原因と対象箇所を表示します。</p></div><div class="version-chip" id="versionChip">CHOSASHI-8-R1</div></div>
+      <div class="hero-row"><div><h1>営業前 system-check</h1><p>異常がある場合は、営業デモへ進む前に原因と対象箇所を表示します。</p></div><div class="version-chip" id="versionChip">CHOSASHI-8-R2</div></div>
     </div>
   </header>
 
@@ -152,7 +152,7 @@
       {name:"screen:staff",file:"staff.html",label:"現場スタッフ",marker:'data-mode="staff"'},
       {name:"screen:ipad",file:"owner-ipad.html",label:"現場共有iPad",marker:'data-mode="ipad"'},
       {name:"screen:system",file:"system-check.html",label:"営業前system-check",marker:"営業前 system-check"},
-      {name:"screen:config",file:"config.js",label:"共通設定",marker:"CHOSASHI-8-R1-SYSTEM-CHECK-FIX-20260717"}
+      {name:"screen:config",file:"config.js",label:"共通設定",marker:"CHOSASHI-8-R2-SYSTEM-CHECK-DEMO-FIX-20260717"}
     ];
 
     document.addEventListener("DOMContentLoaded",init);
@@ -297,6 +297,9 @@
       if(lower.includes("worker exceeded")||lower.includes("worker invocation")){
         return "Cloudflare Workerの実行上限に達しました。検査処理を分割または軽量化する必要があります。";
       }
+      if(lower.includes("appointments_staff_no_overlap")||raw.includes("同じスタッフの予定")||raw.includes("予定が重複")){
+        return "同じスタッフの同時間帯予定が既にあります。デモ準備では既存の標準デモ案件をリセットしてから予定を再生成します。";
+      }
       if(raw.includes("管理APIに接続できません")){
         return "管理APIの応答を取得できませんでした。Workerのエラーまたは一時的な通信制限を確認してください。";
       }
@@ -364,7 +367,8 @@
       try{
         const d=await api("/api/admin/demo-prepare",{method:"POST",body:{}});
         $("demoResult").innerHTML=`<div class="check-card"><div class="check-top"><div><div class="check-name">デモデータ準備完了</div><div class="check-meta">${esc(JSON.stringify(d.counts))}</div></div><span class="status ok">OK</span></div></div>`;
-        showActionResult("デモデータ準備が完了しました。続けてsystem-checkを再実行します。");
+        const caseText=(d.canonical_case_numbers||[]).join("、");
+        showActionResult(`デモデータ準備が完了しました。標準案件：${caseText||"2件"}。続けてsystem-checkを再実行します。`);
         toast("デモデータを準備しました。");await runAll();
       }catch(error){
         const readable=friendlyError(error.message);

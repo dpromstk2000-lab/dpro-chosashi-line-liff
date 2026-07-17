@@ -1,6 +1,6 @@
 window.DPRO_CONFIG = Object.freeze({
   systemName: "DPRO 土地家屋調査士 LINE",
-  version: "CHOSASHI-8-R1-SYSTEM-CHECK-FIX-20260717",
+  version: "CHOSASHI-8-R2-SYSTEM-CHECK-DEMO-FIX-20260717",
   officeCode: "dpro_chosashi_demo",
   apiBase: "https://dpro-chosashi-line-api.dpromstk2000.workers.dev",
   liffId: "",
@@ -11,5 +11,5 @@ window.DPRO_CONFIG = Object.freeze({
   maxUploadBytes: 15728640,
   allowedUploadTypes: ["application/pdf", "image/jpeg", "image/png", "image/webp"],
   allowedFieldPhotoTypes: ["image/jpeg", "image/png", "image/webp"],
-  releaseVersion: "CHOSASHI-8-R1-WORKER-CHECK-LIMIT-READABILITY-FIX-20260717"
+  releaseVersion: "CHOSASHI-8-R2-WORKER-DEMO-PREPARE-IDEMPOTENT-FIX-20260717"
 });
