@@ -1,5 +1,5 @@
 "use strict";
-
+// CHOSASHI-7-R1 IPAD LAYOUT OPTIMIZE 20260717
 const CONFIG = window.DPRO_CONFIG || {};
 const $ = (id) => document.getElementById(id);
 const qsa = (selector) => Array.from(document.querySelectorAll(selector));
@@ -276,6 +276,7 @@ function renderToday() {
 
 function renderAppointments(container, items, isToday) {
   container.replaceChildren();
+  container.classList.toggle("single", items.length === 1);
   if (!items.length) {
     container.innerHTML = `<div class="empty">${
       isToday ? "この日の現場予定はありません。" : "今後14日間の予定はありません。"
