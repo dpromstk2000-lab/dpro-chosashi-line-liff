@@ -1,4 +1,5 @@
 "use strict";
+// CHOSASHI-7-R2 CACHE-BUST 20260717
 // CHOSASHI-7-R1 IPAD LAYOUT OPTIMIZE 20260717
 const CONFIG = window.DPRO_CONFIG || {};
 const $ = (id) => document.getElementById(id);

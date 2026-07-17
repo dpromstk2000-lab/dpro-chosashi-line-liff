@@ -162,3 +162,12 @@ body[data-mode="ipad"] .content-grid{grid-template-columns:minmax(0,1.5fr) minma
 }
 @media(max-width:420px){.metric-grid{grid-template-columns:1fr}.action-grid{grid-template-columns:1fr}.time{font-size:21px}}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+/* CHOSASHI-7-R2 CACHE-BUST + IPAD SINGLE CARD FIX 20260717 */
+.content-grid > *{align-self:start}
+body[data-mode="ipad"] #appointmentList > .appointment-card:only-child{
+  grid-column:1 / -1;
+  width:100%;
+}
+body[data-mode="ipad"] #appointmentList:has(> .appointment-card:only-child){
+  grid-template-columns:1fr;
+}
