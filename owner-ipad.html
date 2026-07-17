@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0f2336">
+  <meta name="format-detection" content="telephone=no">
+  <title>DPRO 土地家屋調査士 LINE｜現場共有iPad</title>
+  <script src="config.js"></script>
+  <link rel="stylesheet" href="field.css">
+</head>
+<body data-mode="ipad">
+  <div class="top-note">現地調査・測量・境界立会いの記録を、非公開Storageへ安全に保存します</div>
+
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">境</div>
+        <div>
+          <strong id="officeName">DPRO土地家屋調査士事務所</strong>
+          <small>土地・建物の調査、測量、境界、表示登記</small>
+        </div>
+      </div>
+      <div class="hero-row">
+        <div>
+          <h1 id="modeTitle">現場共有iPad</h1>
+          <p id="modeLead">当日の現場予定、報告、写真、タスクを確認します。</p>
+        </div>
+        <div class="mode-chip" id="modeChip">現場業務</div>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+    <section class="control-bar">
+      <div class="field">
+        <label for="workDate">表示日</label>
+        <input id="workDate" type="date">
+      </div>
+      <div class="field">
+        <label for="staffSelect">担当スタッフ</label>
+        <select id="staffSelect"></select>
+      </div>
+      <button class="btn btn-primary" id="reloadButton" type="button">再読込</button>
+      <button class="btn btn-danger" id="deleteCodeButton" type="button">管理コード削除</button>
+    </section>
+
+    <section class="metric-grid">
+      <div class="metric"><b id="metricToday">0</b><span>この日の現場予定</span></div>
+      <div class="metric"><b id="metricUpcoming">0</b><span>今後14日間の予定</span></div>
+      <div class="metric"><b id="metricTasks">0</b><span>未完了タスク</span></div>
+      <div class="metric"><b id="metricReports">0</b><span>作成中・提出済み報告</span></div>
+    </section>
+
+    <div class="content-grid">
+      <section class="panel">
+        <div class="panel-head">
+          <div>
+            <h2><span id="selectedDateLabel">―</span>の現場</h2>
+            <p>カードを押すと依頼者・物件・境界立会い・現場報告を確認できます。</p>
+          </div>
+          <span class="status teal" id="connectionChip">接続確認中</span>
+        </div>
+        <div class="card-list appointments" id="appointmentList"></div>
+      </section>
+
+      <div>
+        <section class="panel">
+          <div class="panel-head"><div><h3>今日やること</h3><p>担当タスクを期限順に表示します。</p></div></div>
+          <div id="taskList"></div>
+        </section>
+        <section class="panel">
+          <div class="panel-head"><div><h3>近日の予定</h3><p>次の現場準備を先に確認できます。</p></div></div>
+          <div class="card-list" id="upcomingList"></div>
+        </section>
+      </div>
+    </div>
+
+    <div class="notice warning">
+      写真へお客様の顔、近隣住民の個人情報、車両番号などが映り込む場合は、必要性を確認してください。「お客様にも表示」は公開してよい写真だけに設定します。
+    </div>
+  </main>
+
+  <footer class="footer"><strong id="footerOffice">DPRO土地家屋調査士事務所</strong><br>現場報告・写真は案件ごとの非公開領域へ保存されます。</footer>
+
+  <div class="drawer-backdrop" id="drawerBackdrop" hidden></div>
+  <aside class="drawer" id="fieldDrawer" hidden>
+    <div class="drawer-head">
+      <div><h2 id="drawerTitle">現場詳細</h2><p id="drawerMeta">―</p></div>
+      <button class="btn btn-secondary btn-small" id="closeDrawer" type="button">閉じる</button>
+    </div>
+
+    <section class="summary-grid" id="summaryGrid"></section>
+
+    <section class="action-grid">
+      <button class="btn btn-secondary" id="arriveButton" type="button">現場へ到着</button>
+      <button class="btn btn-primary" id="startButton" type="button">作業開始</button>
+      <button class="btn btn-navy" id="reportButton" type="button">報告・写真</button>
+      <button class="btn btn-success" id="completeButton" type="button">作業完了</button>
+    </section>
+
+    <section class="section">
+      <h3>隣接地所有者・立会い</h3>
+      <p class="section-lead">連絡、立会い、境界確認・署名の現在状況です。</p>
+      <div class="neighbor-grid" id="neighborList"></div>
+    </section>
+
+    <section class="section">
+      <h3>この案件のタスク</h3>
+      <div id="caseTaskList" style="margin-top:12px"></div>
+    </section>
+
+    <section class="section">
+      <h3>現場写真</h3>
+      <p class="section-lead">写真を押すと5分限定の閲覧URLで開きます。</p>
+      <div class="photo-grid" id="photoList"></div>
+    </section>
+
+    <section class="section">
+      <h3>現場報告履歴</h3>
+      <div id="reportHistory" style="margin-top:12px"></div>
+    </section>
+  </aside>
+
+  <div class="modal-backdrop" id="reportModal" hidden>
+    <section class="modal">
+      <div class="modal-head">
+        <div><h2 id="reportModalTitle">現場報告</h2><p>現場の事実、確認事項、次の対応を記録します。</p></div>
+        <button class="btn btn-secondary btn-small" id="closeReportModal" type="button">閉じる</button>
+      </div>
+
+      <div class="form-grid">
+        <div class="field">
+          <label for="reportType">報告種別</label>
+          <select id="reportType">
+            <option value="site_survey">現地調査・測量</option>
+            <option value="boundary_check">境界確認</option>
+            <option value="building_check">建物調査</option>
+            <option value="marker_restoration">境界標復元</option>
+            <option value="attendance">境界立会い</option>
+            <option value="delivery">成果物お渡し</option>
+            <option value="other">その他</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="weather">天候</label>
+          <select id="weather">
+            <option value="">選択してください</option>
+            <option value="晴れ">晴れ</option>
+            <option value="曇り">曇り</option>
+            <option value="雨">雨</option>
+            <option value="雪">雪</option>
+            <option value="強風">強風</option>
+            <option value="その他">その他</option>
+          </select>
+        </div>
+        <div class="field full">
+          <label for="attendees">立会い・参加者</label>
+          <input id="attendees" placeholder="依頼者、隣接所有者、工務店担当者など">
+        </div>
+        <div class="field full">
+          <label for="summary">現場概要</label>
+          <textarea id="summary" placeholder="実施した作業と現場の全体状況"></textarea>
+        </div>
+        <div class="field full">
+          <label for="findings">確認事項・測量結果・問題点</label>
+          <textarea id="findings" placeholder="境界標、構造、現況、関係者説明、追加調査が必要な点など"></textarea>
+        </div>
+        <div class="field full">
+          <label for="nextAction">次の対応</label>
+          <textarea id="nextAction" placeholder="資料照合、再測量、隣接所有者への連絡、書類作成など"></textarea>
+        </div>
+        <div class="field full">
+          <label for="clientVisibleSummary">お客様へ表示する報告</label>
+          <textarea id="clientVisibleSummary" placeholder="専門用語を避け、お客様へ表示してよい内容だけを記入"></textarea>
+        </div>
+      </div>
+
+      <div class="file-box">
+        <div class="form-grid">
+          <div class="field">
+            <label for="photoType">写真種別</label>
+            <select id="photoType">
+              <option value="site_overview">現場全景</option>
+              <option value="boundary_marker">境界標・境界杭</option>
+              <option value="road">接道・道路</option>
+              <option value="building_exterior">建物外観</option>
+              <option value="survey_work">測量作業</option>
+              <option value="attendance">境界立会い</option>
+              <option value="document">現地資料</option>
+              <option value="other">その他</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="photoCaption">写真説明</label>
+            <input id="photoCaption" placeholder="例：北東側の既存境界杭">
+          </div>
+          <div class="field full">
+            <label for="photoInput">写真撮影・選択</label>
+            <input id="photoInput" type="file" accept="image/jpeg,image/png,image/webp" capture="environment" multiple>
+            <p class="help">JPEG・PNG・WebP、1枚15MBまで。複数枚選択できます。</p>
+          </div>
+        </div>
+        <div class="file-list" id="selectedFileList"></div>
+      </div>
+
+      <div class="file-box">
+        <div class="file-row">
+          <div>
+            <strong>位置情報</strong>
+            <p class="help" id="locationText">位置情報は未取得です。必要な現場のみ取得してください。</p>
+          </div>
+          <button class="btn btn-secondary" id="getLocationButton" type="button">現在地を取得</button>
+        </div>
+      </div>
+
+      <label class="check-row" style="margin-top:13px">
+        <input id="clientVisiblePhoto" type="checkbox">
+        <span><strong>今回の写真をお客様にも表示する</strong><span class="help">個人情報や内部作業が写っていない写真だけ選択してください。</span></span>
+      </label>
+      <label class="check-row" style="margin-top:10px">
+        <input id="completeAppointment" type="checkbox">
+        <span><strong>報告保存と同時に、この予定を「完了」にする</strong><span class="help">追加作業が残る場合はチェックしません。</span></span>
+      </label>
+
+      <div class="progress" id="reportProgress" hidden><span id="reportProgressFill"></span></div>
+      <p class="error" id="reportError"></p>
+      <div class="modal-actions">
+        <button class="btn btn-secondary" id="cancelReportButton" type="button">キャンセル</button>
+        <button class="btn btn-primary" id="saveReportButton" type="button">報告と写真を保存</button>
+      </div>
+    </section>
+  </div>
+
+  <div class="modal-backdrop" id="taskModal" hidden>
+    <section class="modal" style="width:min(560px,100%)">
+      <div class="modal-head"><div><h2 id="taskModalTitle">タスク状態</h2><p>現場で確認した現在の状態へ更新します。</p></div><button class="btn btn-secondary btn-small" id="closeTaskModal" type="button">閉じる</button></div>
+      <input id="taskModalTaskId" type="hidden">
+      <div class="field"><label for="taskStatusSelect">状態</label><select id="taskStatusSelect"></select></div>
+      <div class="modal-actions"><button class="btn btn-primary" id="taskSaveButton" type="button">状態を保存</button></div>
+    </section>
+  </div>
+
+  <div class="login-screen" id="loginScreen">
+    <section class="login-card">
+      <div class="login-brand"><div class="brand-mark">境</div><strong>DPRO 土地家屋調査士 LINE</strong></div>
+      <h2 id="loginModeTitle">現場共有iPad画面</h2>
+      <p>管理コードを入力して、当日の現場予定を開きます。</p>
+      <div class="code-row">
+        <input id="adminCodeInput" type="password" inputmode="numeric" autocomplete="current-password" placeholder="管理コード">
+        <button class="btn btn-danger" id="clearCodeButton" type="button">削除</button>
+      </div>
+      <p class="error" id="loginError"></p>
+      <div class="modal-actions"><button class="btn btn-primary" id="loginButton" type="button">現場画面を開く</button></div>
+    </section>
+  </div>
+
+  <div class="loading" id="loading" hidden><div class="loading-card"><div class="spinner"></div><strong id="loadingText">読み込んでいます</strong></div></div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <div class="demo-badge" id="demoBadge" hidden>デモ画面</div>
+
+  <script src="field-app.js"></script>
+</body>
+</html>
