@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#0f2336">
   <meta name="format-detection" content="telephone=no">
   <title>DPRO 土地家屋調査士 LINE｜営業前system-check</title>
-  <script src="config.js?v=chosashi-8-final-20260717"></script>
+  <script src="config.js?v=chosashi-8-r1-check-fix-20260717"></script>
   <style>
     :root{
       --navy-950:#0f2336;--navy-900:#17324d;--navy-800:#244660;
@@ -54,7 +54,12 @@
     .panel-head h2,.panel-head h3{margin:0;color:var(--navy-950);line-height:1.4}.panel-head h2{font-size:25px}.panel-head h3{font-size:20px}.panel-head p{margin:4px 0 0;color:var(--muted);font-size:14px}
     .status{display:inline-flex;padding:6px 10px;border-radius:999px;font-size:12px;font-weight:900;white-space:nowrap}.ok{color:var(--success);background:var(--success-bg)}.ng{color:var(--danger);background:var(--danger-bg)}.warning{color:var(--warning);background:var(--warning-bg)}.info{color:var(--info);background:var(--info-bg)}
     .check-list{display:grid;gap:10px}.check-card{padding:14px;border:1px solid var(--line);border-radius:14px;background:#fff}.check-card.failed{border-color:#e2b0b4;background:#fffafa}.check-card.warning-card{border-color:#e6cd91;background:#fffdf7}
-    .check-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}.check-name{color:var(--navy-950);font-weight:900}.check-meta{margin-top:3px;color:var(--muted);font-size:12px}
+    .check-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}.check-name{color:var(--navy-950);font-weight:900}.check-meta{margin-top:3px;color:var(--muted);font-size:13px}
+    .error-message{margin-top:9px;padding:10px 12px;border-left:4px solid var(--danger);border-radius:7px 11px 11px 7px;color:#7f1d24;background:#fff0f1;font-size:15px;font-weight:800;line-height:1.65;overflow-wrap:anywhere}
+    .action-result{margin-top:14px;padding:13px 15px;border-radius:13px;font-size:15px;font-weight:850;line-height:1.65;overflow-wrap:anywhere}
+    .action-result.ok-result{color:var(--success);border:1px solid #a8d7b8;background:var(--success-bg)}
+    .action-result.ng-result{color:#7f1d24;border:1px solid #e0abb0;background:var(--danger-bg)}
+    .copy-error{margin-top:8px;min-height:37px;padding:6px 10px;border:1px solid #dba8ad;border-radius:9px;color:#7f1d24;background:#fff;font-size:13px;font-weight:800}
     details{margin-top:8px}summary{color:var(--teal-750);font-size:13px;font-weight:850;cursor:pointer}pre{max-height:280px;overflow:auto;margin:8px 0 0;padding:12px;border-radius:11px;color:#dbeaf1;background:var(--navy-950);font:12px/1.55 ui-monospace,SFMono-Regular,Consolas,monospace;white-space:pre-wrap;overflow-wrap:anywhere}
     .screen-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
     .screen-card{padding:14px;border:1px solid var(--line);border-radius:14px;background:var(--surface)}.screen-card strong{display:block;color:var(--navy-950)}.screen-card span{display:block;margin-top:3px;color:var(--muted);font-size:12px}.screen-actions{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}.screen-actions .btn{min-height:39px;padding:7px 11px;font-size:13px}
@@ -69,13 +74,14 @@
     @media(max-width:460px){.control{grid-template-columns:1fr}.metric-grid{grid-template-columns:1fr}.code-row{grid-template-columns:1fr}}
     @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
   </style>
+  <meta name="dpro-build" content="chosashi-8-r1-check-fix-20260717">
 </head>
 <body>
   <div class="top-note">営業前に、API・DB・非公開Storage・各画面・デモデータを一括検査します</div>
   <header class="hero">
     <div class="hero-inner">
       <div class="brand"><div class="mark">境</div><div><strong id="officeName">DPRO土地家屋調査士事務所</strong><small>FINAL RELEASE CHECK</small></div></div>
-      <div class="hero-row"><div><h1>営業前 system-check</h1><p>異常がある場合は、営業デモへ進む前に原因と対象箇所を表示します。</p></div><div class="version-chip" id="versionChip">CHOSASHI-8</div></div>
+      <div class="hero-row"><div><h1>営業前 system-check</h1><p>異常がある場合は、営業デモへ進む前に原因と対象箇所を表示します。</p></div><div class="version-chip" id="versionChip">CHOSASHI-8-R1</div></div>
     </div>
   </header>
 
@@ -86,6 +92,7 @@
       <button class="btn navy" id="demoButton" type="button">デモデータ準備</button>
       <button class="btn danger" id="clearButton" type="button">管理コード削除</button>
     </section>
+    <div class="action-result" id="actionResult" hidden></div>
 
     <section class="metric-grid">
       <div class="metric" id="readyMetric"><b id="releaseStatus">未実行</b><span>営業デモ判定</span></div>
@@ -145,7 +152,7 @@
       {name:"screen:staff",file:"staff.html",label:"現場スタッフ",marker:'data-mode="staff"'},
       {name:"screen:ipad",file:"owner-ipad.html",label:"現場共有iPad",marker:'data-mode="ipad"'},
       {name:"screen:system",file:"system-check.html",label:"営業前system-check",marker:"営業前 system-check"},
-      {name:"screen:config",file:"config.js",label:"共通設定",marker:"CHOSASHI-8-SYSTEM-CHECK-FINAL-20260717"}
+      {name:"screen:config",file:"config.js",label:"共通設定",marker:"CHOSASHI-8-R1-SYSTEM-CHECK-FIX-20260717"}
     ];
 
     document.addEventListener("DOMContentLoaded",init);
@@ -253,21 +260,92 @@
       }));
     }
 
+    const CHECK_LABELS={
+      release_version:"Worker最終バージョン",
+      environment:"Cloudflare環境変数",
+      office:"事務所設定",
+      office_standard:"標準設定・30分枠",
+      admin_key_policy:"管理コード設定",
+      phone_normalization:"電話番号正規化",
+      private_storage:"非公開Storage",
+      appointment_quality:"予定30分枠・重複",
+      case_reference_integrity:"案件の参照整合性",
+      browser_api_smoke_manifest:"主要API分割検査設定",
+      "api:health":"公開Worker API",
+      "api:public_config":"公開設定API",
+      "api:owner_dashboard":"オーナーダッシュボードAPI",
+      "api:staff":"スタッフ一覧API",
+      "api:cases":"案件一覧API",
+      "api:documents":"提出資料API",
+      "api:member":"お客様マイページAPI",
+      "api:field_today":"現場当日予定API"
+    };
+
+    function checkLabel(name){
+      if(CHECK_LABELS[name])return CHECK_LABELS[name];
+      if(name.startsWith("table:"))return `DBテーブル：${name.slice(6)}`;
+      if(name.startsWith("screen:"))return `公開ファイル：${name.slice(7)}`;
+      return name;
+    }
+
+    function friendlyError(message){
+      const raw=String(message||"原因を取得できませんでした。");
+      const lower=raw.toLowerCase();
+      if(lower.includes("too many subrequests")||lower.includes("subrequest limit")||lower.includes("maximum number of subrequests")){
+        return "Cloudflare Workerの1回あたり通信回数上限を超えました。重複した内部検査を分割する必要があります。";
+      }
+      if(lower.includes("worker exceeded")||lower.includes("worker invocation")){
+        return "Cloudflare Workerの実行上限に達しました。検査処理を分割または軽量化する必要があります。";
+      }
+      if(raw.includes("管理APIに接続できません")){
+        return "管理APIの応答を取得できませんでした。Workerのエラーまたは一時的な通信制限を確認してください。";
+      }
+      if(raw.includes("公開APIに接続できません")){
+        return "公開APIへ接続できませんでした。Worker公開状態とURLを確認してください。";
+      }
+      return raw;
+    }
+
+    function showActionResult(message,isError=false){
+      const box=$("actionResult");
+      box.hidden=false;
+      box.className=`action-result ${isError?"ng-result":"ok-result"}`;
+      box.textContent=message;
+    }
+
     function renderResult(){
       const result=state.lastResult,summary=result.summary;
-      $("releaseStatus").textContent=result.release_ready?"合格":"要確認";
+      $("releaseStatus").textContent=result.release_ready?"合格":`要確認 ${summary.critical_failures||summary.failed}件`;
       $("readyMetric").className=`metric ${result.release_ready?"ready":"bad"}`;
-      $("totalCount").textContent=summary.total;$("passCount").textContent=summary.passed;$("failCount").textContent=summary.failed;$("warningCount").textContent=summary.warnings;
+      $("totalCount").textContent=summary.total;
+      $("passCount").textContent=summary.passed;
+      $("failCount").textContent=summary.failed;
+      $("warningCount").textContent=summary.warnings;
       $("checkedAt").textContent=new Intl.DateTimeFormat("ja-JP",{dateStyle:"medium",timeStyle:"medium"}).format(new Date());
       const list=$("checkList");list.replaceChildren();
       result.checks.forEach(check=>{
         const card=document.createElement("article");
         const warning=check.severity==="warning";
+        const readableError=check.ok?"":friendlyError(check.error);
         card.className=`check-card ${!check.ok?"failed":warning?"warning-card":""}`;
-        card.innerHTML=`<div class="check-top"><div><div class="check-name">${esc(check.name)}</div><div class="check-meta">${esc(check.severity||"critical")}／${Number(check.elapsed_ms||0)}ms${check.error?`／${esc(check.error)}`:""}</div></div><span class="status ${check.ok?(warning?"warning":"ok"):"ng"}">${check.ok?(warning?"警告":"OK"):"NG"}</span></div>${check.detail||check.details?`<details><summary>詳細を見る</summary><pre>${esc(JSON.stringify(check.detail||check.details,null,2))}</pre></details>`:""}`;
+        card.innerHTML=`<div class="check-top"><div><div class="check-name">${esc(checkLabel(check.name))}</div><div class="check-meta">${esc(check.name)}／${esc(check.severity||"critical")}／${Number(check.elapsed_ms||0)}ms</div></div><span class="status ${check.ok?(warning?"warning":"ok"):"ng"}">${check.ok?(warning?"警告":"OK"):"NG"}</span></div>${readableError?`<div class="error-message">原因：${esc(readableError)}</div><button class="copy-error" type="button">エラー文をコピー</button>`:""}${check.detail||check.details?`<details><summary>技術詳細を見る</summary><pre>${esc(JSON.stringify(check.detail||check.details,null,2))}</pre></details>`:""}`;
+        card.querySelector(".copy-error")?.addEventListener("click",async()=>{
+          try{
+            await navigator.clipboard.writeText(`${check.name}\n${check.error||readableError}`);
+            toast("エラー文をコピーしました。");
+          }catch{
+            toast("コピーできませんでした。",true);
+          }
+        });
         list.appendChild(card);
       });
-      if(result.release_ready)toast("営業前system-checkは合格です。");else toast("確認が必要な項目があります。",true);
+      if(result.release_ready){
+        showActionResult("営業前system-checkは合格です。重大な異常はありません。");
+        toast("営業前system-checkは合格です。");
+      }else{
+        showActionResult(`要確認：重大な異常が${summary.critical_failures||summary.failed}件あります。赤い項目の「原因」を確認してください。`,true);
+        toast("確認が必要な項目があります。",true);
+      }
     }
 
     function renderScreens(){
@@ -286,8 +364,14 @@
       try{
         const d=await api("/api/admin/demo-prepare",{method:"POST",body:{}});
         $("demoResult").innerHTML=`<div class="check-card"><div class="check-top"><div><div class="check-name">デモデータ準備完了</div><div class="check-meta">${esc(JSON.stringify(d.counts))}</div></div><span class="status ok">OK</span></div></div>`;
+        showActionResult("デモデータ準備が完了しました。続けてsystem-checkを再実行します。");
         toast("デモデータを準備しました。");await runAll();
-      }catch(error){$("demoResult").innerHTML=`<div class="check-card failed"><div class="check-top"><div><div class="check-name">デモデータ準備</div><div class="check-meta">${esc(error.message)}</div></div><span class="status ng">NG</span></div></div>`;toast(error.message||"デモ準備に失敗しました。",true)}
+      }catch(error){
+        const readable=friendlyError(error.message);
+        $("demoResult").innerHTML=`<div class="check-card failed"><div class="check-top"><div><div class="check-name">デモデータ準備</div><div class="check-meta">demo-prepare</div></div><span class="status ng">NG</span></div><div class="error-message">原因：${esc(readable)}</div><details><summary>技術詳細を見る</summary><pre>${esc(error.message||"")}</pre></details></div>`;
+        showActionResult(`デモデータ準備に失敗しました。原因：${readable}`,true);
+        toast("デモデータ準備に失敗しました。",true)
+      }
       finally{$("demoButton").disabled=false;hideLoading()}
     }
 
