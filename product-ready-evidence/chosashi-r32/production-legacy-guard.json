@@ -1,0 +1,16 @@
+{
+  "status": 503,
+  "ok": false,
+  "data": {
+    "ok": false,
+    "code": "SERVICE_BINDING_REQUIRED",
+    "error": "本番接続はProduct READY gatewayへ未bindingのため、安全のため停止しています。?demo=1 の明示デモだけ既存Workerを使用できます。",
+    "product_ready": {
+      "adapter_version": "CHOSASHI-R2-ADAPTER-PRODUCT-READY-20260824",
+      "database_version": "CHOSASHI-R2-DB-PRODUCT-READY-20260824",
+      "frontend_version": "CHOSASHI-R2-FRONTEND-PRODUCT-READY-20260824",
+      "service_binding_ready": false
+    }
+  },
+  "guarded": true
+}

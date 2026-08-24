@@ -1,0 +1,129 @@
+{
+  "ok": true,
+  "first": {
+    "status": 200,
+    "ok": true,
+    "data": {
+      "ok": true,
+      "service": "DPRO Land and House Investigator LINE API",
+      "version": "CHOSASHI-8-R2-WORKER-DEMO-PREPARE-IDEMPOTENT-FIX-20260717",
+      "time": "2026-08-24T11:22:08.820Z",
+      "jst_date": "2026-08-24",
+      "elapsed_ms": 3279,
+      "demo_prepared": true,
+      "office": {
+        "id": "a7434ed1-08a7-4457-a220-c8af8adbb393",
+        "office_code": "dpro_chosashi_demo",
+        "office_name": "DPRO土地家屋調査士事務所",
+        "subtitle": "相談受付・測量・境界立会い・登記進捗をLINEで一元管理",
+        "phone": "092-000-0000",
+        "address": "福岡県糟屋郡志免町志免中央1-1-1",
+        "timezone": "Asia/Tokyo",
+        "is_demo": true,
+        "production_guard": true,
+        "default_slot_minutes": 30,
+        "feature_flags": {
+          "demo_prepare": true,
+          "field_report": true,
+          "system_check": true,
+          "case_management": true,
+          "estimate_payment": true,
+          "message_templates": true,
+          "boundary_management": true,
+          "past_datetime_guard": true,
+          "phone_normalization": true,
+          "property_management": true,
+          "staff_overlap_guard": true,
+          "thirty_minute_slots": true,
+          "line_returning_client": true,
+          "private_document_storage": true
+        }
+      },
+      "counts": {
+        "staff": 3,
+        "clients": 2,
+        "properties": 2,
+        "cases": 2,
+        "appointments": 2,
+        "tasks": 3,
+        "document_requests": 5,
+        "boundary_neighbors": 2,
+        "field_reports": 0,
+        "photos": 0,
+        "documents": 0
+      },
+      "demo_member_ids": [
+        "U_DEMO_CHOSASHI_001",
+        "U_DEMO_CHOSASHI_002"
+      ],
+      "canonical_case_numbers": [
+        "CH-20260717-001",
+        "CH-20260717-002"
+      ],
+      "removed_legacy_case_numbers": []
+    }
+  },
+  "second": {
+    "status": 200,
+    "ok": true,
+    "data": {
+      "ok": true,
+      "service": "DPRO Land and House Investigator LINE API",
+      "version": "CHOSASHI-8-R2-WORKER-DEMO-PREPARE-IDEMPOTENT-FIX-20260717",
+      "time": "2026-08-24T11:22:11.436Z",
+      "jst_date": "2026-08-24",
+      "elapsed_ms": 2572,
+      "demo_prepared": true,
+      "office": {
+        "id": "a7434ed1-08a7-4457-a220-c8af8adbb393",
+        "office_code": "dpro_chosashi_demo",
+        "office_name": "DPRO土地家屋調査士事務所",
+        "subtitle": "相談受付・測量・境界立会い・登記進捗をLINEで一元管理",
+        "phone": "092-000-0000",
+        "address": "福岡県糟屋郡志免町志免中央1-1-1",
+        "timezone": "Asia/Tokyo",
+        "is_demo": true,
+        "production_guard": true,
+        "default_slot_minutes": 30,
+        "feature_flags": {
+          "demo_prepare": true,
+          "field_report": true,
+          "system_check": true,
+          "case_management": true,
+          "estimate_payment": true,
+          "message_templates": true,
+          "boundary_management": true,
+          "past_datetime_guard": true,
+          "phone_normalization": true,
+          "property_management": true,
+          "staff_overlap_guard": true,
+          "thirty_minute_slots": true,
+          "line_returning_client": true,
+          "private_document_storage": true
+        }
+      },
+      "counts": {
+        "staff": 3,
+        "clients": 2,
+        "properties": 2,
+        "cases": 2,
+        "appointments": 2,
+        "tasks": 3,
+        "document_requests": 5,
+        "boundary_neighbors": 2,
+        "field_reports": 0,
+        "photos": 0,
+        "documents": 0
+      },
+      "demo_member_ids": [
+        "U_DEMO_CHOSASHI_001",
+        "U_DEMO_CHOSASHI_002"
+      ],
+      "canonical_case_numbers": [
+        "CH-20260717-001",
+        "CH-20260717-002"
+      ],
+      "removed_legacy_case_numbers": []
+    }
+  }
+}

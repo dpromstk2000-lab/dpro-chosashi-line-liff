@@ -1,0 +1,20 @@
+{
+  "ok": true,
+  "checkedAt": "2026-08-24T11:22:12.679705+00:00",
+  "sourceHead": "5db987c44bbd9be9d336ac44b4832caa6abb2248",
+  "closesReadyItems": [
+    "READY-018",
+    "READY-019",
+    "READY-020",
+    "READY-021",
+    "READY-026",
+    "READY-028",
+    "READY-033"
+  ],
+  "priorFailedRuns": [
+    32718547441,
+    32720053778
+  ],
+  "finalCorrection": "explicit-demo repeat + non-demo SERVICE_BINDING_REQUIRED frontend guard",
+  "finalLockSelfConfirmed": false
+}
