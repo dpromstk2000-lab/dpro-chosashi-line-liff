@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#17324d">
+  <title>DPRO 土地家屋調査士 LINE｜R2 Product READY Check</title>
+  <script src="config.js"></script>
+  <style>
+    *{box-sizing:border-box}body{margin:0;min-width:320px;background:#f4f7f8;color:#1d2b35;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans JP",sans-serif;font-size:16px;line-height:1.65}
+    header{padding:26px 18px;color:#fff;background:#17324d}.wrap{width:min(980px,calc(100% - 24px));margin:auto}.kicker{font-size:13px;font-weight:800;letter-spacing:.08em;opacity:.8}h1{margin:4px 0 0;font-size:clamp(25px,5vw,36px)}
+    main{padding:22px 0 54px}.panel{margin-top:14px;padding:18px;border:1px solid #d5dee3;border-radius:18px;background:#fff;box-shadow:0 8px 24px rgba(15,35,54,.07)}h2{margin:0 0 8px;font-size:21px}.meta{color:#5d6d78;font-size:14px}
+    button,a.btn{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:10px 16px;border:0;border-radius:12px;background:#147d7e;color:#fff;font:inherit;font-weight:800;text-decoration:none;cursor:pointer}.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+    .row{display:grid;grid-template-columns:minmax(180px,.7fr) 1fr;gap:12px;padding:10px 0;border-top:1px solid #e5eaed}.row:first-child{border-top:0}.ok{color:#17643b;font-weight:800}.ng{color:#a3272e;font-weight:800}.warn{color:#8a5800;font-weight:800}
+    pre{overflow:auto;margin:12px 0 0;padding:14px;border-radius:12px;background:#0f2336;color:#eaf2f4;font-size:12px;white-space:pre-wrap;word-break:break-word}
+    @media(max-width:620px){.row{grid-template-columns:1fr}.actions>*{width:100%}}
+  </style>
+</head>
+<body>
+<header><div class="wrap"><div class="kicker">DPRO PRODUCT READY / CHOSASHI / R2</div><h1>Product READY Security Check</h1></div></header>
+<main class="wrap">
+  <section class="panel">
+    <h2>R2固定値</h2>
+    <div id="fixed"></div>
+    <div class="actions">
+      <button id="run" type="button">R2チェック実行</button>
+      <a class="btn" href="system-check.html?demo=1&v=chosashi-r2-product-ready-20260824">既存デモ system-check</a>
+    </div>
+    <p class="meta">この画面は既存の営業画面を変更せず、R2 gatewayだけを確認するための補助画面です。</p>
+  </section>
+  <section class="panel">
+    <h2>結果</h2>
+    <div id="summary" class="meta">未実行</div>
+    <div id="results"></div>
+    <pre id="detail" hidden></pre>
+  </section>
+</main>
+<script>
+"use strict";
+const $=id=>document.getElementById(id),C=window.DPRO_CONFIG,R=window.DPRO_R2;
+const demo=new URLSearchParams(location.search).get("demo")==="1";
+function esc(v){return String(v??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;")}
+function row(name,value,status=""){return `<div class="row"><strong>${esc(name)}</strong><span class="${status}">${esc(value)}</span></div>`}
+$("fixed").innerHTML=[
+  row("Frontend",C.productReadyFrontendVersion),
+  row("Adapter",C.productReadyAdapterVersion),
+  row("Database",C.productReadyDatabaseVersion),
+  row("Mode",demo?"explicit demo=1":"normal / fail-close",demo?"warn":"ok"),
+  row("Legacy Worker",C.legacyApiBase),
+  row("Product READY gateway",C.productReadyApiBase)
+].join("");
+
+$("run").addEventListener("click",run);
+async function run(){
+  $("run").disabled=true;$("summary").textContent="確認中…";$("results").innerHTML="";$("detail").hidden=true;
+  const checks=[],raw={};
+  async function test(name,fn){
+    try{const data=await fn();checks.push({name,ok:true});raw[name]=data}
+    catch(e){checks.push({name,ok:false,error:`${e.code||""} ${e.message||e}`.trim()});raw[name]={code:e.code,message:e.message,details:e.details}}
+  }
+  await test("gateway health",()=>R.health());
+  await test("product-ready check",()=>R.productReadyCheck());
+  await test("phone normalization",async()=>{const d=await R.normalizePhone("+81 90-1111-2222");if(d.normalized!=="09011112222")throw new Error(`normalized=${d.normalized}`);return d});
+  await test("past datetime server reject",async()=>{try{await R.validateReservation("2020-01-01T10:00");throw new Error("past accepted")}catch(e){if(e.code!=="PAST_DATETIME_REJECTED")throw e;return{expected:e.code}}});
+  await test("30-minute slot server reject",async()=>{try{await R.validateReservation("2099-08-24T10:15");throw new Error("15-minute slot accepted")}catch(e){if(e.code!=="SLOT_NOT_30_MINUTES")throw e;return{expected:e.code}}});
+  if(demo) await test("demo self-test",()=>R.selfTest());
+
+  const health=raw["gateway health"];
+  if(health?.versionsAligned!==true)checks.push({name:"versions aligned",ok:false,error:"gateway versionsAligned=false"});
+  else checks.push({name:"versions aligned",ok:true});
+
+  const fail=checks.filter(x=>!x.ok);
+  $("summary").innerHTML=fail.length?`<span class="ng">NG ${fail.length}件</span> / ${checks.length} checks`:`<span class="ok">PASS</span> / ${checks.length} checks`;
+  $("results").innerHTML=checks.map(x=>row(x.name,x.ok?"OK":x.error,x.ok?"ok":"ng")).join("");
+  $("detail").textContent=JSON.stringify(raw,null,2);$("detail").hidden=false;$("run").disabled=false;
+}
+</script>
+</body>
+</html>
