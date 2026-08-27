@@ -11,8 +11,8 @@
   outline: 3px solid #ffbf47; outline-offset: 3px;
 }
 .dpro-tutorial-card {
-  position: fixed; left: 0; top: 0; z-index: 2147483200; width: min(360px, calc(100vw - 16px));
-  max-height: min(620px, calc(100dvh - 16px)); display: flex; flex-direction: column; overflow: hidden;
+  position: fixed; left: 0; top: 0; z-index: 2147483200; width: min(360px, calc(100vw - 24px));
+  max-height: min(620px, calc(100dvh - 24px)); display: flex; flex-direction: column; overflow: hidden;
   border: 1px solid #c8d6dc; border-radius: 18px; color: #1d2b35; background: #fff;
   box-shadow: 0 20px 60px rgba(15,35,54,.28); font: 16px/1.55 system-ui,-apple-system,"Segoe UI","Noto Sans JP",sans-serif;
 }
@@ -50,7 +50,7 @@
 .dpro-tutorial-live { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
 @media (max-width: 420px) {
   #dproTutorialLauncher { top: auto; bottom: max(12px, env(safe-area-inset-bottom)); font-size: 12px; }
-  .dpro-tutorial-card { width: min(304px, calc(100vw - 16px)); }
+  .dpro-tutorial-card { width: min(296px, calc(100vw - 24px)); }
   .dpro-tutorial-actions { padding-inline: 12px; }
   .dpro-tutorial-actions button, .dpro-tutorial-actions a { flex: 1 1 calc(50% - 4px); }
   .dpro-tutorial-actions .quiet { margin-left: 0; }

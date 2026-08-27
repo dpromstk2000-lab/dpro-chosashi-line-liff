@@ -266,6 +266,11 @@
 
   function clampPosition(x, y) {
     const vv = viewportRect();
+    // visualViewport can shrink independently from 100dvh (notably when a
+    // mobile software keyboard is open). Keep the card inside the same
+    // 12px safe margin before measuring/clamping its position.
+    card.style.maxWidth = `${Math.max(120, vv.width - SAFE_MARGIN * 2)}px`;
+    card.style.maxHeight = `${Math.max(120, vv.height - SAFE_MARGIN * 2)}px`;
     const r = card.getBoundingClientRect();
     const maxX = Math.max(vv.left + SAFE_MARGIN, vv.right - r.width - SAFE_MARGIN);
     const maxY = Math.max(vv.top + SAFE_MARGIN, vv.bottom - r.height - SAFE_MARGIN);
