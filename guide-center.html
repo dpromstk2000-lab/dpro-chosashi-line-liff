@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>DPRO 土地家屋調査士 LINE｜Guide Center</title>
+  <meta name="description" content="DPRO 土地家屋調査士 LINE のFirst10、役割別操作、安全上の注意、トラブルシューティングをまとめたGuide Centerです。">
+  <style>
+    :root{color-scheme:light;--ink:#17324d;--muted:#5f6f78;--line:#d9e3e7;--bg:#f4f8f9;--card:#fff;--brand:#147d7e;--brand2:#0f2336;--warn:#fff4d7;--warnink:#694500;--focus:#ffbf47}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:#24343d;font-family:system-ui,-apple-system,"Segoe UI","Noto Sans JP",sans-serif;line-height:1.7;overflow-wrap:anywhere}
+    a{color:#0a6668;text-underline-offset:3px}.skip{position:absolute;left:12px;top:-80px;z-index:100;padding:10px 14px;border-radius:10px;background:#fff;color:var(--ink);font-weight:800}.skip:focus{top:12px}
+    a:focus-visible,button:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
+    header{background:linear-gradient(135deg,var(--brand2),#156f78);color:#fff}.hero{width:min(1120px,calc(100% - 32px));margin:auto;padding:44px 0 36px}.eyebrow{margin:0 0 6px;font-size:12px;font-weight:900;letter-spacing:.12em;opacity:.8}.hero h1{margin:0;font-size:clamp(28px,5vw,46px);line-height:1.2}.hero p{max-width:780px;margin:14px 0 0;color:#e4f1f2}.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}.btn{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:10px 16px;border:1px solid rgba(255,255,255,.55);border-radius:12px;color:#fff;background:rgba(255,255,255,.08);font-weight:850;text-decoration:none}.btn.primary{background:#fff;color:var(--brand2);border-color:#fff}.btn.alt{background:#f5c85f;color:#302300;border-color:#f5c85f}
+    nav.toc{position:sticky;top:0;z-index:20;border-bottom:1px solid var(--line);background:rgba(255,255,255,.96);backdrop-filter:blur(8px)}.toc-inner{width:min(1120px,calc(100% - 24px));margin:auto;display:flex;gap:8px;overflow-x:auto;padding:9px 0;scrollbar-width:thin}.toc a{flex:0 0 auto;padding:7px 10px;border-radius:9px;color:var(--ink);font-size:13px;font-weight:750;text-decoration:none}.toc a:hover{background:#edf5f5}
+    main{width:min(1120px,calc(100% - 32px));margin:28px auto 56px}.section{scroll-margin-top:72px;margin-top:28px}.section h2{margin:0 0 12px;color:var(--ink);font-size:clamp(22px,4vw,30px);line-height:1.3}.section>p{margin:0 0 16px;color:var(--muted)}
+    .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.grid.three{grid-template-columns:repeat(3,minmax(0,1fr))}.card{min-width:0;padding:19px;border:1px solid var(--line);border-radius:16px;background:var(--card);box-shadow:0 6px 18px rgba(15,35,54,.05)}.card h3{margin:0 0 8px;color:var(--ink);font-size:18px}.card p{margin:7px 0;color:var(--muted)}.card ul,.card ol{margin:8px 0 0;padding-left:1.35em}.card li+li{margin-top:5px}.tag{display:inline-block;margin-bottom:8px;padding:3px 8px;border-radius:999px;background:#e5f2f2;color:#0a6566;font-size:11px;font-weight:900}.route{display:block;margin-top:10px;padding:8px 10px;border-radius:9px;background:#f2f6f7;color:#53646e;font:12px/1.5 ui-monospace,SFMono-Regular,Consolas,monospace;overflow-wrap:anywhere}
+    .notice{margin:16px 0;padding:14px 16px;border-left:5px solid #b67600;border-radius:10px;background:var(--warn);color:var(--warnink)}.safe{border-left-color:var(--brand);background:#eaf7f5;color:#285c59}.links{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.links a{display:inline-flex;align-items:center;min-height:42px;padding:8px 12px;border:1px solid #b9ced1;border-radius:10px;background:#fff;font-weight:800;text-decoration:none}
+    .steps{counter-reset:step;display:grid;gap:10px}.step{position:relative;padding:14px 14px 14px 52px;border:1px solid var(--line);border-radius:13px;background:#fff}.step:before{counter-increment:step;content:counter(step);position:absolute;left:14px;top:14px;display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--brand);color:#fff;font-weight:900}.step strong{color:var(--ink)}
+    details{border:1px solid var(--line);border-radius:12px;background:#fff}details+details{margin-top:10px}summary{cursor:pointer;padding:13px 15px;color:var(--ink);font-weight:850}details>div{padding:0 15px 15px;color:var(--muted)}
+    footer{border-top:1px solid var(--line);background:#fff}.foot{width:min(1120px,calc(100% - 32px));margin:auto;padding:24px 0 36px;color:#667984;font-size:13px}
+    @media(max-width:780px){.grid,.grid.three{grid-template-columns:1fr}.hero{width:min(100% - 24px,1120px);padding-top:34px}.actions .btn{flex:1 1 140px}main{width:min(100% - 24px,1120px)}.card{padding:16px}.toc-inner{width:calc(100% - 16px)}}
+    @media(max-width:340px){.hero,main,.foot{width:calc(100% - 20px)}.btn{width:100%}.section{scroll-margin-top:64px}.step{padding-left:46px}.step:before{left:11px}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+  </style>
+</head>
+<body>
+<a class="skip" href="#main">本文へ移動</a>
+<header>
+  <div class="hero">
+    <p class="eyebrow">DPRO TUTORIAL STANDARD V1.1 / CHOSASHI</p>
+    <h1>Guide Center</h1>
+    <p>土地家屋調査士業務システムの基本導線、安全なデモ操作、役割別の確認ポイントを1か所にまとめています。First10は業務登録を自動実行せず、画面の見方だけを案内します。</p>
+    <div class="actions" aria-label="First10操作">
+      <a class="btn primary" href="index.html?demo=1&tutorial=start">First10を開始</a>
+      <a class="btn alt" href="index.html?demo=1&tutorial=resume">First10を再開</a>
+      <a class="btn" href="index.html?demo=1&tutorial=replay">最初からReplay</a>
+      <a class="btn" href="demo-guide.html">デモ案内へ戻る</a>
+    </div>
+  </div>
+</header>
+<nav class="toc" aria-label="Guide Center目次"><div class="toc-inner">
+  <a href="#first10">First10</a><a href="#customer">相談者</a><a href="#member">お客様</a><a href="#owner">管理者</a><a href="#field">現場</a><a href="#system">System Check</a><a href="#safety">安全</a><a href="#accessibility">キーボード</a><a href="#trouble">困ったとき</a><a href="#manuals">マニュアル</a>
+</div></nav>
+<main id="main" tabindex="-1">
+  <section class="section" id="first10">
+    <h2>First10：最初に見る10項目</h2>
+    <p>公開デモの代表的な流れ「相談受付 → 管理PC → 現場 → お客様マイページ」を10ステップで確認します。入力・送信・状態更新・写真登録などは自動実行しません。</p>
+    <div class="steps">
+      <div class="step"><strong>4段階の相談受付を確認</strong> — 相談内容、お客様情報、物件・日時、内容確認の全体像。</div>
+      <div class="step"><strong>相談区分</strong> — 土地・建物・不明から近い相談区分を選ぶ場所。</div>
+      <div class="step"><strong>現在の状況・困りごと</strong> — 経緯や希望時期を書く場所。公開デモでは架空情報だけを使用。</div>
+      <div class="step"><strong>連絡先と登録情報確認</strong> — STEP 2の氏名・電話番号と再相談時の登録情報確認。</div>
+      <div class="step"><strong>物件所在地・希望日時・同意</strong> — STEP 3の物件情報、希望日時、個人情報同意。</div>
+      <div class="step"><strong>相談送信の境界</strong> — 「この内容で相談を送信」は実登録。First10は押しません。</div>
+      <div class="step"><strong>管理PCダッシュボード</strong> — 進行中案件、本日の予定、未完了タスク、確認待ち資料。</div>
+      <div class="step"><strong>案件一覧と次に行うこと</strong> — 案件番号・状態・担当・次アクションを確認。</div>
+      <div class="step"><strong>現場当日の予定</strong> — 現場詳細を確認。到着・開始・報告・写真・完了は実業務更新。</div>
+      <div class="step"><strong>お客様マイページ</strong> — 進捗、次に行うこと、必要書類、今後の予定を確認。</div>
+    </div>
+  </section>
+
+  <section class="section" id="customer">
+    <h2>相談者：新規相談の流れ</h2>
+    <div class="grid">
+      <article class="card"><span class="tag">PUBLIC / CUSTOMER</span><h3>相談受付</h3><ol><li>相談区分と内容を確認</li><li>連絡先を入力</li><li>物件所在地・希望日時を確認</li><li>個人情報同意後、内容確認へ</li><li>送信は本人が内容を確認して実行</li></ol><span class="route">index.html?demo=1</span><div class="links"><a href="index.html?demo=1">相談受付を開く</a></div></article>
+      <article class="card"><h3>送信前の注意</h3><p>公開デモでは、実在する氏名・電話番号・住所・所有者名・近隣者情報を入力しないでください。</p><div class="notice">「この内容で相談を送信」は業務データを作る操作です。First10はこのボタンを自動操作しません。</div></article>
+    </div>
+  </section>
+
+  <section class="section" id="member">
+    <h2>お客様：マイページと資料提出</h2>
+    <div class="grid">
+      <article class="card"><span class="tag">MEMBER</span><h3>案件の進捗確認</h3><p>案件一覧から現在の進捗、次に行うこと、必要書類、予定、支払い、連絡先を確認します。</p><span class="route">member.html?demo=1</span><div class="links"><a href="member.html?demo=1">マイページを開く</a></div></article>
+      <article class="card"><h3>資料提出</h3><p>資料提出画面では提出先案件・依頼・ファイルを確認してから本人が送信します。</p><p>マイナンバー、不要な健康情報、暗証番号などはアップロードしないでください。</p><span class="route">upload.html?demo=1</span></article>
+    </div>
+  </section>
+
+  <section class="section" id="owner">
+    <h2>管理者：管理PCの基本導線</h2>
+    <div class="grid three">
+      <article class="card"><span class="tag">OWNER / ADMIN</span><h3>ダッシュボード</h3><p>進行中案件、本日の予定、未完了タスク、確認待ち資料を確認します。</p></article>
+      <article class="card"><h3>案件一覧</h3><p>案件番号・状態・担当・次アクションを確認。詳細Drawer内の保存・状態変更は業務更新です。</p></article>
+      <article class="card"><h3>予定・タスク・資料</h3><p>予定追加、タスク更新、資料依頼・確認、連絡記録は必要な内容を確認してから本人が実行します。</p></article>
+    </div>
+    <div class="links"><a href="owner.html?demo=1">管理PCを開く</a></div>
+    <div class="notice safe">公開デモで既に表示されている管理コードは <strong>1234</strong> です。Tutorialはこのコードを読み取り・保存・自動入力しません。</div>
+  </section>
+
+  <section class="section" id="field">
+    <h2>現場：スタッフ／共有iPad</h2>
+    <div class="grid">
+      <article class="card"><span class="tag">FIELD / STAFF</span><h3>スタッフスマホ</h3><p>当日の予定から現場詳細を確認します。到着、作業開始、報告、写真、完了は実業務更新です。</p><span class="route">staff.html?demo=1</span><div class="links"><a href="staff.html?demo=1">スタッフ画面</a></div></article>
+      <article class="card"><span class="tag">FIELD / iPAD</span><h3>共有iPad</h3><p>同じ現場導線を大きな画面で利用します。写真や位置情報は必要な現場だけで使い、端末を離れる際は表示内容に注意してください。</p><span class="route">owner-ipad.html?demo=1</span><div class="links"><a href="owner-ipad.html?demo=1">共有iPad画面</a></div></article>
+    </div>
+    <div class="notice">写真には顔、車両番号、近隣住民など不要な個人情報を含めないでください。位置情報は目的を確認してから許可してください。</div>
+  </section>
+
+  <section class="section" id="system">
+    <h2>System Check とデモ準備</h2>
+    <div class="grid">
+      <article class="card"><h3>一括チェック</h3><p>営業前・デモ前に公開画面とシステム状態をまとめて確認します。</p><span class="route">system-check.html?demo=1</span><div class="links"><a href="system-check.html?demo=1">System Checkを開く</a></div></article>
+      <article class="card"><h3>デモデータ準備</h3><p>「デモデータ準備」はデータを作成・初期化する更新操作です。既存画面の確認ダイアログを読み、必要なときだけ本人が実行します。</p><div class="notice">TutorialやGuide Centerから demo_prepare を自動実行することはありません。</div></article>
+    </div>
+  </section>
+
+  <section class="section" id="safety">
+    <h2>データ安全・更新操作の境界</h2>
+    <div class="grid three">
+      <article class="card"><h3>見るだけ</h3><p>ページ移動、表示確認、First10のNext/Back、Guide Center閲覧は業務データを変更しません。</p></article>
+      <article class="card"><h3>本人が行う更新</h3><p>相談送信、資料提出、案件保存、状態更新、予定・タスク・連絡、現場報告、写真登録など。</p></article>
+      <article class="card"><h3>Tutorial保存</h3><p>保存するのは進捗・画面名・カード位置などのTutorial状態だけです。氏名、電話、住所、管理コード、トークン、フォーム値は保存しません。</p></article>
+    </div>
+  </section>
+
+  <section class="section" id="accessibility">
+    <h2>キーボード・アクセシビリティ</h2>
+    <div class="card">
+      <ul><li><strong>Tab / Shift+Tab：</strong>First10カード内の操作へ移動します。</li><li><strong>Enter / Space：</strong>選択中のTutorialボタンやリンクを実行します。</li><li><strong>Esc：</strong>アプリ側Drawer/Modalが開いている場合はそちらを優先し、通常時はTutorialを閉じます。</li><li><strong>矢印キー：</strong>First10のドラッグハンドルにフォーカスがあるとき、カードを移動できます。Shift併用で移動量を大きくできます。</li><li><strong>ドラッグ不要：</strong>First10はキーボードだけでも完了できます。</li><li><strong>フォーカス表示：</strong>選択位置は黄色のアウトラインで確認できます。</li></ul>
+    </div>
+  </section>
+
+  <section class="section" id="trouble">
+    <h2>困ったとき</h2>
+    <details><summary>First10が途中の画面から始まらない</summary><div>Guide Centerの「First10を再開」を開いてください。保存状態がない場合は「First10を開始」または「最初からReplay」を使用します。</div></details>
+    <details><summary>案内対象が光らない</summary><div>ログイン前、非表示STEP、未選択タブなど、現在見えていない対象は無理に開きません。説明カードはそのまま進められます。</div></details>
+    <details><summary>カードが邪魔になる</summary><div>上部の「ここだけをドラッグできます」の領域をドラッグしてください。ボタン・リンク・入力欄からドラッグは始まりません。カードは画面外へ出ないよう再配置されます。</div></details>
+    <details><summary>最初からやり直したい</summary><div>ReplayはTutorial専用の保存状態だけを初期化します。案件・相談・予定・資料などの業務データは削除しません。</div></details>
+    <details><summary>デモ全体の入口へ戻りたい</summary><div><a href="demo-guide.html">デモ案内</a>へ戻り、相談者・管理者・現場・お客様の画面を選択してください。</div></details>
+  </section>
+
+  <section class="section" id="manuals">
+    <h2>印刷マニュアル</h2>
+    <div class="card"><span class="tag">R5 PLACEHOLDER ONLY</span><h3>Quick Start / 詳細マニュアル</h3><p>印刷用Quick Startと詳細マニュアルは次工程R5の対象です。現在はGuide Centerの案内のみで、PDF・印刷マニュアル本体はまだ作成していません。</p></div>
+  </section>
+
+  <section class="section" aria-labelledby="return-title">
+    <h2 id="return-title">戻る・再開する</h2>
+    <div class="links"><a href="index.html?demo=1&tutorial=start">First10を開始</a><a href="index.html?demo=1&tutorial=resume">First10を再開</a><a href="index.html?demo=1&tutorial=replay">Replay</a><a href="demo-guide.html">デモ案内</a><a href="index.html?demo=1">相談受付</a></div>
+  </section>
+</main>
+<footer><div class="foot">DPRO 土地家屋調査士 LINE — Guide Center / Tutorial-only frontend layer. DB・Worker・API・Auth・Role・Permission・Feature Flagは変更しません。</div></footer>
+</body>
+</html>
