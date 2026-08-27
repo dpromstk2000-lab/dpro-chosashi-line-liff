@@ -180,3 +180,27 @@ window.DPRO_CONFIG = Object.freeze({
     });
   };
 })();
+
+// DPRO TUTORIAL R3 loader: additive frontend-only integration.
+(() => {
+  "use strict";
+  const route = location.pathname.split("/").pop() || "index.html";
+  const supported = new Set(["index.html", "owner.html", "staff.html", "owner-ipad.html", "member.html"]);
+  if (!supported.has(route)) return;
+  const current = document.currentScript?.src || location.href;
+  const base = new URL(".", current);
+  if (!document.querySelector('link[data-dpro-tutorial="chosashi"]')) {
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = new URL("tutorial.css?v=CHOSASHI-R3-20260827", base).href;
+    link.dataset.dproTutorial = "chosashi";
+    document.head.appendChild(link);
+  }
+  if (!document.querySelector('script[data-dpro-tutorial="chosashi"]')) {
+    const script = document.createElement("script");
+    script.src = new URL("tutorial.js?v=CHOSASHI-R3-20260827", base).href;
+    script.defer = true;
+    script.dataset.dproTutorial = "chosashi";
+    document.head.appendChild(script);
+  }
+})();
