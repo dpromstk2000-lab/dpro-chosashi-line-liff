@@ -513,6 +513,8 @@
     }
     async function updateCaseStatus(){
       const c=state.currentCase.case;
+      const nextStatus=$("detailStatusSelect").value;
+      if(nextStatus!==c.status&&["accepted","application_submitted","registration_completed","completed","declined","cancelled"].includes(nextStatus)&&!confirm(`案件状態を「${c.status}」から「${nextStatus}」へ変更しますか？`))return;
       await guardedAction("案件状態を更新しています",async()=>api(`/api/admin/cases/${c.id}/status`,{method:"POST",body:{status:$("detailStatusSelect").value,public_message:$("detailStatusMessage").value.trim(),is_client_visible:true}}),"案件状態を更新しました。",()=>refreshCurrentCase());
     }
     async function refreshCurrentCase(){const id=state.currentCase.case.id;state.currentCase=await api(`/api/admin/cases/${id}`);renderCaseDetail();await loadDashboard()}
